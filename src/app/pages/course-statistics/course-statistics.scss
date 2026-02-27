@@ -3,29 +3,48 @@
 .statistics-container {
   background: white;
   border-radius: 30px;
-  padding: 20px;
+  padding: 25px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba($medium-pink, 0.2);
+  }
 }
 
 .stat-header {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   font-size: 1.2rem;
   font-weight: 600;
   color: $text-dark;
   text-align: center;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, $soft-green, $soft-pink);
+    border-radius: 3px;
+  }
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 20px;
   text-align: center;
 }
 
 .stat-item {
-  padding: 15px;
-  border-radius: 15px;
+  padding: 20px;
+  border-radius: 20px;
   background: linear-gradient(135deg, $light-mint, $light-pink);
   transition: all 0.3s ease;
   
@@ -33,26 +52,38 @@
     animation: pulse 1s ease;
   }
   
+  &:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, $soft-green, $soft-pink);
+    
+    .stat-value, .stat-label {
+      color: white;
+    }
+  }
+  
   .stat-value {
     display: block;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: $medium-pink;
     line-height: 1.2;
+    margin-bottom: 5px;
   }
   
   .stat-label {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: $text-soft;
+    font-weight: 500;
   }
 }
 
 .stat-footer {
-  margin-top: 15px;
-  padding-top: 15px;
+  margin-top: 20px;
+  padding-top: 20px;
   border-top: 2px dashed $light-pink;
   text-align: center;
   color: $text-soft;
+  font-size: 0.95rem;
 }
 
 @keyframes pulse {
@@ -61,5 +92,44 @@
   }
   50% {
     transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba($medium-pink, 0.3);
+  }
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+  .statistics-container {
+    padding: 15px;
+  }
+  
+  .stats-grid {
+    gap: 10px;
+  }
+  
+  .stat-item {
+    padding: 12px;
+    
+    .stat-value {
+      font-size: 1.8rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .stat-item {
+    padding: 15px;
+    
+    .stat-value {
+      font-size: 2rem;
+    }
   }
 }

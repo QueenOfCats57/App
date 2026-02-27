@@ -47,6 +47,7 @@
   }
 }
 
+// Анимации
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -58,6 +59,27 @@
   }
 }
 
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// Бейджи
 .course-badges {
   position: absolute;
   top: 15px;
@@ -91,17 +113,6 @@
   }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 // Grid View
 .grid-view {
   .course-header {
@@ -113,6 +124,8 @@
 
     .category-icon {
       font-size: 2rem;
+      min-width: 40px;
+      text-align: center;
     }
 
     .course-title {
@@ -120,6 +133,7 @@
       margin: 0;
       color: $text-dark;
       line-height: 1.4;
+      font-weight: 600;
     }
   }
 
@@ -138,9 +152,11 @@
       cursor: pointer;
       padding: 0 5px;
       font-size: 0.9rem;
+      font-weight: 600;
 
       &:hover {
         color: $dark-pink;
+        transform: scale(1.1);
       }
     }
   }
@@ -167,6 +183,9 @@
       margin-left: auto;
       font-size: 0.85rem;
       color: $medium-pink;
+      background: white;
+      padding: 3px 8px;
+      border-radius: 12px;
     }
   }
 
@@ -221,6 +240,9 @@
       font-size: 2.5rem;
       min-width: 50px;
       text-align: center;
+      background: rgba($light-pink, 0.3);
+      padding: 10px;
+      border-radius: 15px;
     }
 
     .list-title-section {
@@ -230,6 +252,7 @@
         margin: 0 0 5px 0;
         font-size: 1.4rem;
         color: $text-dark;
+        font-weight: 600;
       }
 
       .teacher-name-small {
@@ -244,12 +267,14 @@
     color: $text-soft;
     line-height: 1.6;
     margin-bottom: 15px;
+    padding-left: 65px;
   }
 
   .list-details {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    padding-left: 65px;
 
     .detail-item {
       padding: 5px 15px;
@@ -280,17 +305,21 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 10px 0;
+  padding: 5px 0;
 
   .compact-category {
     font-size: 1.2rem;
     min-width: 30px;
+    text-align: center;
   }
 
   .compact-title {
     flex: 1;
     font-weight: 600;
     color: $text-dark;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .compact-level {
@@ -363,6 +392,7 @@
     .current-price {
       font-size: 1.3rem;
       font-weight: 700;
+      transition: color 0.3s ease;
     }
   }
 
@@ -386,12 +416,14 @@
       &:hover {
         transform: scale(1.1);
         background: $light-pink;
+        border-color: $soft-pink;
       }
 
       &.liked {
         background: $dark-pink;
         border-color: $dark-pink;
         color: white;
+        animation: pulse 0.3s ease;
       }
     }
 
@@ -409,6 +441,61 @@
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba($medium-pink, 0.4);
       }
+    }
+  }
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+  .course-card {
+    padding: 15px;
+  }
+
+  .grid-view {
+    .course-header {
+      padding-right: 50px;
+      
+      .category-icon {
+        font-size: 1.5rem;
+      }
+      
+      .course-title {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  .list-view {
+    .list-header {
+      flex-wrap: wrap;
+      
+      .category-icon-large {
+        width: 100%;
+      }
+    }
+    
+    .list-description,
+    .list-details {
+      padding-left: 0;
+    }
+  }
+
+  .compact-view {
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    .compact-level {
+      min-width: 80px;
+    }
+  }
+
+  .course-footer {
+    flex-wrap: wrap;
+    gap: 10px;
+    
+    .card-actions {
+      width: 100%;
+      justify-content: flex-end;
     }
   }
 }

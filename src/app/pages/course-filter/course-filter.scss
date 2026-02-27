@@ -31,6 +31,11 @@
     border-color: $medium-pink;
     box-shadow: 0 0 0 3px rgba($medium-pink, 0.1);
   }
+
+  &::placeholder {
+    color: $text-soft;
+    opacity: 0.7;
+  }
 }
 
 .filter-select {
@@ -42,9 +47,14 @@
   cursor: pointer;
   background: white;
   font-size: 1rem;
+  transition: all 0.2s ease;
 
   &:focus {
     border-color: $medium-pink;
+  }
+
+  &:hover {
+    background: rgba($light-pink, 0.3);
   }
 }
 
@@ -59,6 +69,11 @@
     gap: 10px;
     cursor: pointer;
     padding: 5px 0;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateX(5px);
+    }
 
     input[type="checkbox"] {
       width: 18px;
@@ -97,6 +112,10 @@
       border-color: $medium-pink;
       transform: scale(1.05);
     }
+
+    &:active {
+      transform: scale(0.95);
+    }
   }
 }
 
@@ -118,5 +137,30 @@
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba($soft-pink, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+  .filters-panel {
+    padding: 15px;
+  }
+
+  .sort-controls {
+    flex-wrap: wrap;
+    
+    .sort-direction-btn {
+      width: 100%;
+    }
+  }
+
+  .checkbox-group {
+    .checkbox-label {
+      padding: 8px 0;
+    }
   }
 }
