@@ -1,0 +1,172 @@
+<div class="comment-chat-container"
+     [style.background-color]="chatBackgroundColor"
+     [style.opacity]="chatOpacity"
+     [class.expanded]="isChatExpanded"
+     [class.collapsed]="!isChatExpanded">
+  
+  <!-- Заголовок с демонстрацией различных привязок -->
+  <div class="chat-header">
+    <!-- Привязка к стилю -->
+    <h2 [style.fontSize.px]="headerFontSize"
+        [style.color]="isChatExpanded ? '#2c3e50' : '#95a5a6'">
+      <!-- Привязка свойства элемента DOM (односторонняя) -->
+      <span [innerHTML]="title"></span>
+      <span class="comment-count" *ngIf="totalComments > 0">
+        ({{ totalComments }})
+      </span>
+    </h2>
+    
+    <!-- Привязка к классу CSS -->
+    <div class="header-controls">
+      <button (click)="toggleChatExpand()"
+              [class.active]="isChatExpanded"
+              class="control-btn">
+        {{ isChatExpanded ? '▼' : '▶' }}
+      </button>
+      
+      <!-- Привязка к атрибуту -->
+      <button (click)="changeHeaderSize(2)"
+              [attr.title]="'Увеличить заголовок'"
+              class="control-btn">
+        A+
+      </button>
+      <button (click)="changeHeaderSize(-2)"
+              [attr.title]="'Уменьшить заголовок'"
+              class="control-btn">
+        A-
+      </button>
+    </div>
+  </div>
+
+  <!-- Элементы управления (демонстрация двусторонней привязки) -->
+  <div class="chat-controls" *ngIf="isChatExpanded">
+    <!-- Двусторонняя привязка для цвета фона -->
+    <div class="control-group">
+      <label>Цвет фона чата:</label>
+      <input type="color"
+             [(ngModel)]="chatBackgroundColor"
+             (ngModelChange)="chatBackgroundColorChange.emit($event)">
+    </div>
+    
+    <!-- Двусторонняя привязка для заголовка -->
+    <div class="control-group">
+      <label>Заголовок чата:</label>
+      <input type="text"
+             [ngModel]="title"
+             (ngModelChange)="updateTitle($event)"
+             placeholder="Введите заголовок">
+    </div>
+    
+    <!-- Привязка к атрибуту disabled -->
+    <div class="control-group">
+      <label>Прозрачность:</label>
+      <input type="range"
+             [value]="chatOpacity"
+             (input)="chatOpacity = $any($event.target).value"
+             [attr.min]="0.5"
+             [attr.max]="1"
+             [attr.step]="0.1">
+      <span>{{ chatOpacity * 100 }}%</span>
+    </div>
+  </div>
+
+  <!-- Сортировка комментариев -->
+  <div class="sort-controls" *ngIf="isChatExpanded">
+    <button (click)="sortComments('newest')"
+            [class.active]="commentSortOrder === 'newest'">
+      Новые
+    </button>
+    <button (click)="sortComments('oldest')"
+            [class.active]="commentSortOrder === 'oldest'">
+      Старые
+    </button>
+    <button (click)="sortComments('popular')"
+            [class.active]="commentSortOrder === 'popular'">
+      Популярные
+    </button>
+  </div>
+
+  <!-- Форма добавления комментария -->
+  <div class="add-comment-form" *ngIf="isChatExpanded">
+    <input type="text"
+           [(ngModel)]="newCommentAuthor"
+           placeholder="Ваше имя"
+           class="author-input">
+    
+    <!-- Привязка к атрибутам textarea -->
+    <textarea [(ngModel)]="newCommentText"
+              [placeholder]="textareaPlaceholder"
+              [attr.maxlength]="textareaMaxLength"
+              [attr.rows]="3"
+              class="comment-input"
+              (keyup.enter)="addComment()">
+    </textarea>
+    
+    <div class="form-footer">
+      <span class="char-counter">
+        {{ newCommentText.length }}/{{ textareaMaxLength }}
+      </span>
+      <button (click)="addComment()"
+              [disabled]="!newCommentText.trim() || !newCommentAuthor.trim()"
+              class="submit-btn">
+        Отправить
+      </button>
+    </div>
+  </div>
+
+  <!-- Список комментариев -->
+  <div class="comments-list" *ngIf="isChatExpanded">
+    <div *ngFor="let comment of comments" 
+         class="comment-item"
+         [style.background-color]="comment.authorColor + '30'"
+         [class.edited]="comment.isEdited">
+      
+      <!-- Привязка к CSS классу на основе данных -->
+      <div class="comment-header"
+           [class.beginner]="comment.authorLevel === 'beginner'"
+           [class.intermediate]="comment.authorLevel === 'intermediate'"
+           [class.advanced]="comment.authorLevel === 'advanced'">
+        
+        <!-- Привязка к стилю inline -->
+        <span class="author-avatar"
+              [style.background-color]="comment.authorColor">
+          {{ comment.author.charAt(0) }}
+        </span>
+        
+        <div class="author-info">
+          <strong [style.color]="comment.authorColor">
+            {{ comment.author }}
+          </strong>
+          <span class="comment-date">
+            {{ comment.date | date:'dd.MM.yyyy HH:mm' }}
+            <span *ngIf="comment.isEdited" class="edited-tag">(ред.)</span>
+          </span>
+        </div>
+        
+        <div class="comment-actions">
+          <!-- Привязка события к методу компонента -->
+          <button (click)="likeComment(comment)" 
+                  class="like-btn"
+                  [class.liked]="comment.likes > 0">
+            ❤️ {{ comment.likes }}
+          </button>
+          <button (click)="deleteComment(comment.id)" 
+                  class="delete-btn">
+            ✕
+          </button>
+        </div>
+      </div>
+      
+      <!-- Привязка содержимого через innerHTML -->
+      <div class="comment-text"
+           [innerHTML]="comment.text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Статистика (привязка свойств) -->
+  <div class="chat-stats" *ngIf="isChatExpanded">
+    <span>📊 Всего комментариев: {{ totalComments }}</span>
+    <span>❤️ Всего лайков: {{ totalLikes }}</span>
+  </div>
+</div>

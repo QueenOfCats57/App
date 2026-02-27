@@ -1,0 +1,175 @@
+@import '../../../styles.scss';
+
+.page-header {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+
+  h2 {
+    font-size: 3rem;
+    color: $text-dark;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+
+    &::before, &::after {
+      content: '✽';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $medium-pink;
+      font-size: 36px;
+    }
+
+    &::before { left: -50px; }
+    &::after { right: -50px; }
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: $text-soft;
+    background: rgba($soft-pink, 0.2);
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+  }
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin: 40px 0;
+}
+
+.course-card {
+  background: $white;
+  border-radius: 40px 15px 40px 15px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  border: 3px solid transparent;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba($soft-pink, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:nth-child(1) {
+    border-color: $soft-green;
+    .card-badge { background: $soft-green; }
+  }
+
+  &:nth-child(2) {
+    border-color: $soft-pink;
+    .card-badge { background: $soft-pink; }
+  }
+
+  &:nth-child(3) {
+    border-color: $medium-green;
+    .card-badge { background: $medium-green; }
+  }
+
+  &:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 30px 50px rgba($medium-pink, 0.3);
+  }
+}
+
+.card-image {
+  height: 200px;
+  background: linear-gradient(135deg, $light-mint, $light-pink);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    font-size: 60px;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+  }
+}
+
+.card-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 15px;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.card-content {
+  padding: 25px;
+
+  h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: $text-dark;
+  }
+
+  p {
+    color: $text-soft;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px dashed $light-pink;
+}
+
+.course-duration {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: $medium-green;
+  font-weight: 500;
+}
+
+.course-level {
+  padding: 5px 15px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  &.beginner {
+    background: $light-mint;
+    color: $medium-green;
+  }
+
+  &.intermediate {
+    background: $light-pink;
+    color: $medium-pink;
+  }
+
+  &.advanced {
+    background: linear-gradient(135deg, $light-mint, $light-pink);
+    color: $text-dark;
+  }
+}

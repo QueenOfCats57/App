@@ -1,0 +1,50 @@
+<div class="home-container">
+  <div class="hero-section">
+    <h1 class="main-title">
+      <span>🌟</span> EnglishPro <span>🌟</span>
+    </h1>
+    <p class="main-subtitle">Твой путь к свободному английскому</p>
+    
+    <nav class="nav-menu">
+      <a routerLink="/courses" class="nav-link">📚 Курсы</a>
+      <a routerLink="/about" class="nav-link">🏫 О школе</a>
+      <a routerLink="/contacts" class="nav-link">📞 Контакты</a>
+    </nav>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>Индивидуальный подход</h3>
+      <p>Программа под ваш уровень и цели</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <h3>Разговорная практика</h3>
+      <p>80% времени говорите вы</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⏰</div>
+      <h3>Гибкий график</h3>
+      <p>Занимайтесь когда удобно</p>
+    </div>
+  </div>
+
+  <section class="info-section">
+    <h2>Почему EnglishPro?</h2>
+    <p>Мы не просто учим английскому — мы открываем новые возможности. Наши студенты успешно сдают международные экзамены, получают работу в международных компаниях и свободно путешествуют по миру.</p>
+    <p>Присоединяйтесь к сообществу EnglishPro и начните говорить по-английски уже сегодня!</p>
+  </section>
+
+  <!-- Добавляем компонент комментариев с демонстрацией всех видов привязок -->
+  <section class="comments-section">
+    <app-comment-chat 
+      [title]="'💬 Обсуждение курсов EnglishPro'"
+      [maxComments]="50"
+      [chatBackgroundColor]="'#ffffff'"
+      (commentAdded)="onCommentAdded($event)"
+      (titleChange)="onTitleChange($event)"
+      [(chatBackgroundColor)]="chatBgColor">
+    </app-comment-chat>
+  </section>
+</div>

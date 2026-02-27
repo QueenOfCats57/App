@@ -1,0 +1,160 @@
+@import '../../../styles.scss';
+
+.contacts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin: 40px 0;
+}
+
+.contact-info {
+  h3 {
+    font-size: 2rem;
+    color: $medium-green;
+    margin-bottom: 30px;
+  }
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: rgba($white, 0.7);
+  border-radius: 30px 10px 30px 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $white;
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba($soft-pink, 0.3);
+  }
+}
+
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $light-mint, $light-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.contact-details {
+  p {
+    font-size: 1.1rem;
+    color: $text-dark;
+    font-weight: 500;
+  }
+
+  small {
+    color: $text-soft;
+    font-size: 0.9rem;
+  }
+}
+
+.faq-section {
+  h3 {
+    font-size: 2rem;
+    color: $medium-pink;
+    margin-bottom: 30px;
+  }
+}
+
+.faq-item {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: rgba($white, 0.5);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba($white, 0.8);
+    transform: scale(1.02);
+  }
+
+  h4 {
+    color: $text-dark;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &::before {
+      content: '❓';
+      color: $medium-pink;
+    }
+  }
+
+  p {
+    color: $text-soft;
+    padding-left: 30px;
+    position: relative;
+
+    &::before {
+      content: '💡';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: $soft-green;
+    }
+  }
+}
+
+.social-section {
+  text-align: center;
+  margin-top: 50px;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba($light-mint, 0.5), rgba($light-pink, 0.5));
+  border-radius: 60px 20px 60px 20px;
+
+  h3 {
+    font-size: 1.8rem;
+    color: $text-dark;
+    margin-bottom: 20px;
+  }
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba($soft-pink, 0.3);
+
+  &:hover {
+    transform: translateY(-5px) rotate(360deg);
+    background: linear-gradient(135deg, $soft-green, $soft-pink);
+    color: white;
+  }
+}
+
+.social-text {
+  margin-top: 20px;
+  color: $text-soft;
+  font-size: 1.1rem;
+  
+  &::before {
+    content: '✨';
+    margin-right: 8px;
+  }
+  
+  &::after {
+    content: '✨';
+    margin-left: 8px;
+  }
+}

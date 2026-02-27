@@ -1,0 +1,82 @@
+@import '../../../styles.scss';
+
+.not-found-container {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '404';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20rem;
+    font-weight: 900;
+    color: rgba($soft-pink, 0.1);
+    z-index: -1;
+    white-space: nowrap;
+  }
+}
+
+.not-found-content {
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.6s ease;
+
+  h1 {
+    font-size: 8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, $soft-green, $soft-pink, $medium-pink);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    animation: glitch 3s infinite;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: skew(0deg, 0deg); opacity: 1; }
+  95% { transform: skew(5deg, -2deg); opacity: 0.8; }
+  96% { transform: skew(-5deg, 2deg); opacity: 0.9; }
+  97% { transform: skew(3deg, -1deg); opacity: 1; }
+}
+
+.error-animation {
+  margin: 30px 0;
+  
+  span {
+    font-size: 4rem;
+    display: inline-block;
+    animation: bounce 1s ease infinite;
+    
+    &:nth-child(2) { animation-delay: 0.1s; }
+    &:nth-child(3) { animation-delay: 0.2s; }
+  }
+}
+
+.error-message {
+  font-size: 1.5rem;
+  color: $text-soft;
+  margin: 20px 0;
+  background: rgba($white, 0.5);
+  padding: 15px 30px;
+  border-radius: 50px;
+  display: inline-block;
+}

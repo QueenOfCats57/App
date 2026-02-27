@@ -1,0 +1,156 @@
+@import '../../../styles.scss';
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin: 40px 0;
+}
+
+.about-text {
+  h3 {
+    font-size: 2rem;
+    color: $medium-green;
+    margin-bottom: 20px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: $medium-pink;
+      border-radius: 2px;
+    }
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: $text-soft;
+    margin-bottom: 25px;
+    line-height: 1.8;
+  }
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20px;
+  background: rgba($light-mint, 0.5);
+  border-radius: 30px 10px 30px 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba($light-pink, 0.5);
+    transform: scale(1.05);
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $medium-pink;
+    display: block;
+  }
+
+  .stat-label {
+    color: $text-soft;
+    font-size: 0.9rem;
+  }
+}
+
+.teachers-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.teacher-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: rgba($white, 0.7);
+  border-radius: 50px 15px 50px 15px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $white;
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba($soft-pink, 0.3);
+  }
+}
+
+.teacher-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $light-mint, $light-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.teacher-info {
+  h4 {
+    font-size: 1.3rem;
+    color: $text-dark;
+    margin-bottom: 5px;
+  }
+
+  p {
+    color: $medium-pink;
+    font-weight: 500;
+  }
+}
+
+.values-section {
+  margin-top: 50px;
+  text-align: center;
+
+  h3 {
+    font-size: 2rem;
+    color: $text-dark;
+    margin-bottom: 30px;
+  }
+}
+
+.values-list {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.value-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .value-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $light-mint, $light-pink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: rotate(360deg) scale(1.1);
+      background: linear-gradient(135deg, $soft-green, $soft-pink);
+      color: white;
+    }
+  }
+}
