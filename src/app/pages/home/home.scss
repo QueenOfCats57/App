@@ -1,5 +1,22 @@
 @import '../../../styles.scss';
 
+.clickable-element::before {
+  content: '❀';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 48px;
+  color: rgba($soft-pink, 0.3);
+  transform: rotate(-15deg);
+  pointer-events: none;
+
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 .home-container {
   min-height: 100vh;
   padding: 20px;
