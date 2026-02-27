@@ -1,48 +1,89 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList, ElementRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Course, CourseLevel, CourseCategory } from '../../pages/course-list/course.model';
+import { Course } from '../../pages/course-list/course.model';
+import { CourseCardComponent } from '../../pages/course-card/course-card';
+import { CourseFilterComponent } from '../../pages/course-filter/course-filter';
+import { CourseStatisticsComponent } from '../../pages/course-statistics/course-statistics';
+import { FilterSectionComponent } from '../../pages/filter-section/filter-section';
 
 @Component({
   selector: 'app-course-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [
+    CommonModule, 
+    RouterModule, 
+    FormsModule,
+    CourseCardComponent,
+    CourseFilterComponent,
+    CourseStatisticsComponent,
+    FilterSectionComponent
+  ],
   templateUrl: './course-list.html',
   styleUrls: ['./course-list.scss']
 })
-export class CourseList implements OnInit {
-  // Массив с данными о курсах
+export class CourseList implements OnInit, AfterViewInit {
+  // Данные о курсах
   courses: Course[] = [];
   
-  // Для демонстрации ngSwitch
-  selectedViewMode: 'grid' | 'list' | 'compact' = 'grid';
-  
-  // Для фильтрации (демонстрация ngIf)
-  selectedLevel: CourseLevel | 'all' = 'all';
-  selectedCategory: CourseCategory | 'all' = 'all';
+  // Состояние фильтров
+  selectedLevel: 'all' | 'beginner' | 'intermediate' | 'advanced' = 'all';
+  selectedCategory: 'all' | 'general' | 'business' | 'exam' | 'conversation' = 'all';
   showOnlyPopular: boolean = false;
   showOnlyNew: boolean = false;
-  
-  // Для поиска
   searchQuery: string = '';
-  
-  // Для сортировки
   sortBy: 'title' | 'price' | 'rating' | 'students' | 'duration' = 'rating';
   sortDirection: 'asc' | 'desc' = 'desc';
   
-  // Для демонстрации ngClass и ngStyle
-  highlightedCourseId: number | null = null;
-  isFiltersVisible: boolean = true;
+  // Режим отображения
+  selectedViewMode: 'grid' | 'list' | 'compact' = 'grid';
   
-  // Статистика для демонстрации
+  // Состояние UI
+  isFiltersVisible: boolean = true;
+  highlightedCourseId: number | null = null;
+  
+  // Статистика
   totalCourses: number = 0;
   averageRating: number = 0;
   totalStudents: number = 0;
+  
+  // ViewChild для доступа к дочерним компонентам
+  @ViewChild(CourseStatisticsComponent) statisticsComponent!: CourseStatisticsComponent;
+  @ViewChild(CourseFilterComponent) filterComponent!: CourseFilterComponent;
+  @ViewChild('pageTitle') pageTitle!: ElementRef;
+  
+  // ViewChildren для доступа к нескольким компонентам
+  @ViewChildren(CourseCardComponent) courseCards!: QueryList<CourseCardComponent>;
+  @ViewChildren('filterElement') filterElements!: QueryList<ElementRef>;
+  
+  // Для демонстрации ContentChild (будет использоваться в шаблоне)
+  @ContentChild('additionalContent') additionalContent: any;
 
   ngOnInit() {
     this.initializeCourses();
     this.calculateStats();
+  }
+
+  ngAfterViewInit() {
+    // Демонстрация использования ViewChild
+    console.log('Statistics component:', this.statisticsComponent);
+    console.log('Filter component:', this.filterComponent);
+    console.log('Page title:', this.pageTitle.nativeElement.textContent);
+    
+    // Демонстрация использования ViewChildren
+    console.log('Number of course cards:', this.courseCards.length);
+    console.log('Number of filter elements:', this.filterElements.length);
+    
+    // Подписка на изменения списка карточек
+    this.courseCards.changes.subscribe(cards => {
+      console.log('Course cards changed:', cards.length);
+    });
+    
+    // Анимация заголовка
+    if (this.pageTitle) {
+      this.pageTitle.nativeElement.style.animation = 'slideInDown 0.5s ease';
+    }
   }
 
   private initializeCourses() {
@@ -231,37 +272,20 @@ export class CourseList implements OnInit {
     ];
   }
 
-  // Вычисление статистики
   private calculateStats() {
     this.totalCourses = this.courses.length;
     this.averageRating = Number((this.courses.reduce((sum, c) => sum + c.rating, 0) / this.totalCourses).toFixed(1));
     this.totalStudents = this.courses.reduce((sum, c) => sum + c.students, 0);
   }
 
-  // Фильтрация курсов (демонстрация ngIf)
+  // Фильтрация курсов
   get filteredCourses(): Course[] {
     return this.courses.filter(course => {
-      // Фильтр по уровню
-      if (this.selectedLevel !== 'all' && course.level !== this.selectedLevel) {
-        return false;
-      }
+      if (this.selectedLevel !== 'all' && course.level !== this.selectedLevel) return false;
+      if (this.selectedCategory !== 'all' && course.category !== this.selectedCategory) return false;
+      if (this.showOnlyPopular && !course.isPopular) return false;
+      if (this.showOnlyNew && !course.isNew) return false;
       
-      // Фильтр по категории
-      if (this.selectedCategory !== 'all' && course.category !== this.selectedCategory) {
-        return false;
-      }
-      
-      // Фильтр популярных
-      if (this.showOnlyPopular && !course.isPopular) {
-        return false;
-      }
-      
-      // Фильтр новых
-      if (this.showOnlyNew && !course.isNew) {
-        return false;
-      }
-      
-      // Поиск по названию и описанию
       if (this.searchQuery) {
         const query = this.searchQuery.toLowerCase();
         return course.title.toLowerCase().includes(query) || 
@@ -271,7 +295,6 @@ export class CourseList implements OnInit {
       
       return true;
     }).sort((a, b) => {
-      // Сортировка
       let comparison = 0;
       switch (this.sortBy) {
         case 'title':
@@ -294,85 +317,61 @@ export class CourseList implements OnInit {
     });
   }
 
-  // Методы для демонстрации директив
-  toggleFilters() {
-    this.isFiltersVisible = !this.isFiltersVisible;
-  }
-
-  toggleSortDirection() {
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-  }
-
-  highlightCourse(courseId: number | null) {
+  // Обработчики событий от дочерних компонентов
+  onCardClick(courseId: number) {
+    console.log('Card clicked:', courseId);
     this.highlightedCourseId = courseId;
+    
+    // Демонстрация доступа к дочернему компоненту через ViewChild
+    setTimeout(() => {
+      this.highlightedCourseId = null;
+    }, 2000);
   }
 
-  getCourseLevelLabel(level: CourseLevel): string {
-    const labels = {
-      'beginner': 'Начинающий',
-      'intermediate': 'Средний',
-      'advanced': 'Продвинутый',
-      'all-levels': 'Все уровни'
-    };
-    return labels[level];
+  onCourseLike(course: Course) {
+    console.log('Course liked:', course.title);
+    
+    // Демонстрация использования ViewChildren
+    this.courseCards.forEach((card, index) => {
+      console.log(`Card ${index} state:`, card.isLiked);
+    });
   }
 
-  getCourseLevelClass(level: CourseLevel): string {
-    const classes = {
-      'beginner': 'level-beginner',
-      'intermediate': 'level-intermediate',
-      'advanced': 'level-advanced',
-      'all-levels': 'level-all'
-    };
-    return classes[level];
+  onViewDetails(course: Course) {
+    console.log('View details:', course.title);
+    alert(`Подробная информация о курсе "${course.title}" будет доступна в следующей версии!`);
   }
 
-  getCategoryIcon(category: CourseCategory): string {
-    const icons = {
-      'general': '📚',
-      'business': '💼',
-      'exam': '📝',
-      'conversation': '💬'
-    };
-    return icons[category];
+  // Обработчики фильтров
+  onLevelChange(level: any) {
+    this.selectedLevel = level;
   }
 
-  getCategoryLabel(category: CourseCategory): string {
-    const labels = {
-      'general': 'Общий',
-      'business': 'Бизнес',
-      'exam': 'Экзамен',
-      'conversation': 'Разговорный'
-    };
-    return labels[category];
+  onCategoryChange(category: any) {
+    this.selectedCategory = category;
   }
 
-  // Для ngStyle
-  getCourseCardStyle(course: Course): any {
-    return {
-      'border-left': this.highlightedCourseId === course.id ? '5px solid #f06292' : 'none',
-      'transform': this.highlightedCourseId === course.id ? 'scale(1.02)' : 'scale(1)',
-      'box-shadow': this.highlightedCourseId === course.id ? '0 10px 30px rgba(240, 98, 146, 0.3)' : 'none',
-      'transition': 'all 0.3s ease'
-    };
+  onPopularChange(popular: boolean) {
+    this.showOnlyPopular = popular;
   }
 
-  // Для ngClass
-  getCourseCardClasses(course: Course): any {
-    return {
-      'popular-course': course.isPopular,
-      'new-course': course.isNew,
-      'discount-course': course.hasDiscount,
-      'highlighted': this.highlightedCourseId === course.id
-    };
+  onNewChange(isNew: boolean) {
+    this.showOnlyNew = isNew;
   }
 
-  getPriceWithDiscount(course: Course): number {
-    return course.discountPrice || course.price;
+  onSearchChange(query: string) {
+    this.searchQuery = query;
   }
 
-  // Сброс фильтров
-  resetFilters() {
+  onSortByChange(sort: string) {
+    this.sortBy = sort as any;
+  }
+
+  onSortDirectionChange(direction: 'asc' | 'desc') {
+    this.sortDirection = direction;
+  }
+
+  resetAllFilters() {
     this.selectedLevel = 'all';
     this.selectedCategory = 'all';
     this.showOnlyPopular = false;
@@ -380,5 +379,26 @@ export class CourseList implements OnInit {
     this.searchQuery = '';
     this.sortBy = 'rating';
     this.sortDirection = 'desc';
+    
+    // Демонстрация вызова метода дочернего компонента
+    if (this.filterComponent) {
+      console.log('Filters reset by parent component');
+    }
+  }
+
+  toggleFilters() {
+    this.isFiltersVisible = !this.isFiltersVisible;
+  }
+
+  changeViewMode(mode: 'grid' | 'list' | 'compact') {
+    this.selectedViewMode = mode;
+    
+    // Демонстрация доступа к DOM через ViewChild
+    if (this.pageTitle) {
+      this.pageTitle.nativeElement.style.transform = 'scale(1.1)';
+      setTimeout(() => {
+        this.pageTitle.nativeElement.style.transform = 'scale(1)';
+      }, 200);
+    }
   }
 }

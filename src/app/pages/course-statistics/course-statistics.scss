@@ -1,0 +1,65 @@
+@import '../../../styles.scss';
+
+.statistics-container {
+  background: white;
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.stat-header {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: $text-dark;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  text-align: center;
+}
+
+.stat-item {
+  padding: 15px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, $light-mint, $light-pink);
+  transition: all 0.3s ease;
+  
+  &.animated {
+    animation: pulse 1s ease;
+  }
+  
+  .stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: $medium-pink;
+    line-height: 1.2;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: $text-soft;
+  }
+}
+
+.stat-footer {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px dashed $light-pink;
+  text-align: center;
+  color: $text-soft;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}

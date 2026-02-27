@@ -1,0 +1,28 @@
+<div #statsContainer class="statistics-container">
+  <!-- Использование ContentChild для заголовка -->
+  <div class="stat-header" *ngIf="statHeader">
+    <ng-container *ngTemplateOutlet="statHeader"></ng-container>
+  </div>
+  
+  <div class="stats-grid">
+    <div class="stat-item" [class.animated]="isAnimated">
+      <span class="stat-value">{{ totalCourses }}</span>
+      <span class="stat-label">курсов</span>
+    </div>
+    
+    <div class="stat-item" [class.animated]="isAnimated">
+      <span class="stat-value">{{ averageRating }}</span>
+      <span class="stat-label">ср. рейтинг</span>
+    </div>
+    
+    <div class="stat-item" [class.animated]="isAnimated">
+      <span class="stat-value">{{ formatNumber(totalStudents) }}</span>
+      <span class="stat-label">студентов</span>
+    </div>
+  </div>
+  
+  <!-- Использование ContentChild для подвала -->
+  <div class="stat-footer" *ngIf="statFooter">
+    <ng-container *ngTemplateOutlet="statFooter"></ng-container>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="filters-panel" *ngIf="isVisible">
+  <!-- Search Section с ng-content -->
+  <app-filter-section title="Поиск" icon="🔍" [isExpanded]="true">
+    <input #filterInput
+           type="text"
+           [ngModel]="searchQuery"
+           (ngModelChange)="onSearchChange($event)"
+           placeholder="Поиск курсов..."
+           class="search-input">
+  </app-filter-section>
+
+  <!-- Level Section -->
+  <app-filter-section title="Уровень" icon="📊" [isExpanded]="true">
+    <select #filterInput
+            [ngModel]="selectedLevel"
+            (ngModelChange)="onLevelChange($event)"
+            class="filter-select">
+      <option value="all">Все уровни</option>
+      <option value="beginner">Начинающий</option>
+      <option value="intermediate">Средний</option>
+      <option value="advanced">Продвинутый</option>
+    </select>
+  </app-filter-section>
+
+  <!-- Category Section -->
+  <app-filter-section title="Категория" icon="📚" [isExpanded]="true">
+    <select #filterInput
+            [ngModel]="selectedCategory"
+            (ngModelChange)="onCategoryChange($event)"
+            class="filter-select">
+      <option value="all">Все категории</option>
+      <option value="general">Общий</option>
+      <option value="business">Бизнес</option>
+      <option value="exam">Экзамены</option>
+      <option value="conversation">Разговорный</option>
+    </select>
+  </app-filter-section>
+
+  <!-- Additional Filters Section -->
+  <app-filter-section title="Дополнительно" icon="⚙️" [isExpanded]="false">
+    <div class="checkbox-group">
+      <label class="checkbox-label">
+        <input type="checkbox"
+               [ngModel]="showOnlyPopular"
+               (ngModelChange)="onPopularChange($event)">
+        <span>🔥 Только популярные</span>
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox"
+               [ngModel]="showOnlyNew"
+               (ngModelChange)="onNewChange($event)">
+        <span>✨ Только новые</span>
+      </label>
+    </div>
+  </app-filter-section>
+
+  <!-- Sort Section -->
+  <app-filter-section title="Сортировка" icon="🔄" [isExpanded]="true">
+    <div class="sort-controls">
+      <select [ngModel]="sortBy"
+              (ngModelChange)="onSortByChange($event)"
+              class="filter-select">
+        <option value="rating">По рейтингу</option>
+        <option value="price">По цене</option>
+        <option value="students">По популярности</option>
+        <option value="duration">По длительности</option>
+        <option value="title">По названию</option>
+      </select>
+      <button class="sort-direction-btn" (click)="toggleSortDirection()">
+        {{ sortDirection === 'asc' ? '↑' : '↓' }}
+      </button>
+    </div>
+  </app-filter-section>
+
+  <!-- Reset Button -->
+  <button class="reset-filters-btn" (click)="onResetFilters()">
+    Сбросить все фильтры
+  </button>
+</div>

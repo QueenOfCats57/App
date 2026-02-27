@@ -4,7 +4,7 @@ export interface Course {
   description: string;
   level: 'beginner' | 'intermediate' | 'advanced' | 'all-levels';
   category: 'general' | 'business' | 'exam' | 'conversation';
-  duration: number; // в неделях
+  duration: number;
   price: number;
   students: number;
   rating: number;

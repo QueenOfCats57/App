@@ -1,190 +1,70 @@
-@import '../../../styles.scss';
+// Дополнение к существующим стилям
 
-.course-list-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.page-header {
-  text-align: center;
-  border-radius: 30px;
-  margin-bottom: 30px;
-  transition: all 0.3s ease;
-  
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    color: $text-dark;
-    
-    .header-icon {
-      margin-right: 10px;
-    }
-  }
-  
-  .subtitle {
-    font-size: 1.2rem;
-    color: $text-soft;
-    margin-bottom: 20px;
-  }
-}
-
-.stats-banner {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 20px;
-  
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: $medium-pink;
-    }
-    
-    .stat-label {
-      color: $text-soft;
-      font-size: 0.9rem;
-    }
-  }
-}
-
-.toggle-filters-btn {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  background: white;
-  border: 2px dashed $soft-pink;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  font-size: 1.1rem;
+.main-title {
+  font-size: 3rem;
+  margin-bottom: 10px;
   color: $text-dark;
-  transition: all 0.3s ease;
+  animation: slideInDown 0.5s ease;
   
-  &:hover {
-    background: $light-pink;
-    border-color: $medium-pink;
+  .header-icon {
+    margin-right: 10px;
+    display: inline-block;
+    animation: rotate 3s linear infinite;
   }
 }
 
-.filters-panel {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  
-  .search-box {
-    margin-bottom: 20px;
-    
-    .search-input {
-      width: 100%;
-      padding: 15px 20px;
-      border: 2px solid $light-pink;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      outline: none;
-      transition: all 0.3s ease;
-      
-      &:focus {
-        border-color: $medium-pink;
-        box-shadow: 0 0 0 3px rgba($medium-pink, 0.1);
-      }
-    }
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.custom-stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  color: $medium-pink;
   
-  .filters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    align-items: end;
-    
-    .filter-group {
-      label {
-        display: block;
-        margin-bottom: 8px;
-        color: $text-dark;
-        font-weight: 500;
-      }
-      
-      .filter-select {
-        width: 100%;
-        padding: 10px;
-        border: 2px solid $light-pink;
-        border-radius: 10px;
-        outline: none;
-        cursor: pointer;
-        
-        &:focus {
-          border-color: $medium-pink;
-        }
-      }
-      
-      &.checkbox-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        
-        .checkbox-label {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          cursor: pointer;
-          
-          input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-          }
-        }
-      }
-      
-      &.sort-group {
-        display: flex;
-        gap: 10px;
-        
-        .filter-select {
-          flex: 1;
-        }
-        
-        .sort-direction-btn {
-          width: 40px;
-          height: 40px;
-          border: 2px solid $light-pink;
-          border-radius: 10px;
-          background: white;
-          cursor: pointer;
-          font-size: 1.2rem;
-          transition: all 0.2s ease;
-          
-          &:hover {
-            background: $light-pink;
-            border-color: $medium-pink;
-          }
-        }
-      }
-    }
-    
-    .reset-filters-btn {
-      padding: 10px 20px;
-      background: $light-pink;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      color: $text-dark;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      
-      &:hover {
-        background: $soft-pink;
-        color: white;
-      }
-    }
+  .stat-emoji {
+    font-size: 1.5rem;
+    animation: bounce 2s infinite;
+  }
+}
+
+.custom-stat-footer {
+  color: $text-soft;
+  font-style: italic;
+  padding: 5px;
+  
+  span {
+    background: rgba($light-pink, 0.3);
+    padding: 5px 15px;
+    border-radius: 20px;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
   }
 }
 
@@ -205,6 +85,7 @@
     
     &:hover {
       background: $light-pink;
+      transform: translateY(-2px);
     }
     
     &.active {
@@ -220,6 +101,9 @@
   margin-bottom: 20px;
   color: $text-soft;
   font-size: 1.1rem;
+  padding: 10px;
+  background: rgba($light-mint, 0.3);
+  border-radius: 30px;
 }
 
 .no-results {
@@ -227,6 +111,7 @@
   padding: 60px;
   background: white;
   border-radius: 30px;
+  margin: 40px 0;
   
   p {
     font-size: 1.5rem;
@@ -247,11 +132,15 @@
     &:hover {
       background: $dark-pink;
       transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba($dark-pink, 0.3);
     }
   }
 }
 
-// Grid режим
+.courses-display {
+  min-height: 400px;
+}
+
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -259,198 +148,6 @@
   margin-bottom: 40px;
 }
 
-.course-card {
-  background: white;
-  border-radius: 30px 15px 30px 15px;
-  padding: 20px;
-  position: relative;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  }
-  
-  &.popular-course {
-    border-color: $soft-pink;
-  }
-  
-  &.new-course {
-    border-color: $soft-green;
-  }
-  
-  &.discount-course {
-    background: linear-gradient(135deg, white, $light-pink);
-  }
-  
-  &.highlighted {
-    border-width: 3px;
-    border-color: $medium-pink;
-  }
-}
-
-.course-badges {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.badge {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  
-  &.popular {
-    background: linear-gradient(135deg, #ff9800, #f44336);
-  }
-  
-  &.new {
-    background: linear-gradient(135deg, $soft-green, $medium-green);
-  }
-  
-  &.discount {
-    background: linear-gradient(135deg, $soft-pink, $dark-pink);
-  }
-}
-
-.course-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-  padding-right: 60px;
-  
-  .category-icon {
-    font-size: 2rem;
-  }
-  
-  .course-title {
-    font-size: 1.3rem;
-    margin: 0;
-    color: $text-dark;
-    line-height: 1.4;
-  }
-}
-
-.course-description {
-  color: $text-soft;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  min-height: 60px;
-}
-
-.teacher-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px;
-  background: rgba($light-pink, 0.3);
-  border-radius: 15px;
-  margin-bottom: 15px;
-  
-  .teacher-avatar {
-    font-size: 1.5rem;
-  }
-  
-  .teacher-name {
-    font-weight: 600;
-    color: $text-dark;
-  }
-  
-  .teacher-experience {
-    margin-left: auto;
-    font-size: 0.85rem;
-    color: $medium-pink;
-  }
-}
-
-.course-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-  
-  span {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    background: rgba($light-mint, 0.5);
-  }
-  
-  .course-level {
-    font-weight: 600;
-    
-    &.level-beginner {
-      background: $light-mint;
-      color: $medium-green;
-    }
-    
-    &.level-intermediate {
-      background: $light-pink;
-      color: $medium-pink;
-    }
-    
-    &.level-advanced {
-      background: $soft-pink;
-      color: white;
-    }
-    
-    &.level-all {
-      background: $soft-green;
-      color: white;
-    }
-  }
-}
-
-.course-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 15px;
-  border-top: 2px dashed $light-pink;
-  
-  .course-rating {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    
-    .stars {
-      color: #ffc107;
-    }
-    
-    .rating-value {
-      font-weight: 600;
-      color: $text-dark;
-    }
-  }
-  
-  .course-price {
-    text-align: right;
-    
-    .old-price {
-      font-size: 0.9rem;
-      color: $text-soft;
-      text-decoration: line-through;
-      margin-right: 8px;
-    }
-    
-    .current-price {
-      font-size: 1.3rem;
-      font-weight: 700;
-    }
-  }
-}
-
-// List режим
 .courses-list {
   display: flex;
   flex-direction: column;
@@ -458,155 +155,13 @@
   margin-bottom: 40px;
 }
 
-.course-list-item {
-  background: white;
-  border-radius: 20px;
-  padding: 20px;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-  
-  &.popular-course {
-    border-left: 5px solid #ff9800;
-  }
-  
-  &.new-course {
-    border-left: 5px solid $soft-green;
-  }
-  
-  &.discount-course {
-    border-left: 5px solid $soft-pink;
-  }
-  
-  &:hover {
-    transform: translateX(5px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  }
-}
-
-.list-item-content {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.list-item-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  
-  .category-icon-large {
-    font-size: 2.5rem;
-    min-width: 50px;
-    text-align: center;
-  }
-  
-  .list-item-title {
-    flex: 1;
-    
-    h3 {
-      margin: 0 0 5px 0;
-      font-size: 1.4rem;
-      color: $text-dark;
-    }
-    
-    .teacher-name-small {
-      margin: 0;
-      color: $text-soft;
-      font-size: 0.9rem;
-    }
-  }
-  
-  .list-item-badges {
-    display: flex;
-    gap: 8px;
-  }
-}
-
-.list-item-description {
-  color: $text-soft;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.list-item-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  
-  .detail-item {
-    padding: 5px 15px;
-    border-radius: 20px;
-    background: rgba($light-mint, 0.5);
-    font-size: 0.95rem;
-    
-    &.level-beginner {
-      background: $light-mint;
-      color: $medium-green;
-    }
-    
-    &.level-intermediate {
-      background: $light-pink;
-      color: $medium-pink;
-    }
-    
-    &.level-advanced {
-      background: $soft-pink;
-      color: white;
-    }
-  }
-}
-
-.list-item-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 15px;
-  border-top: 2px dashed $light-pink;
-  
-  .list-item-price {
-    .old-price {
-      font-size: 1rem;
-      color: $text-soft;
-      text-decoration: line-through;
-      margin-right: 10px;
-    }
-    
-    .current-price-large {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: $medium-pink;
-    }
-  }
-  
-  .details-btn {
-    padding: 10px 25px;
-    background: linear-gradient(135deg, $soft-green, $soft-pink);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba($medium-pink, 0.4);
-    }
-  }
-}
-
-// Compact режим (таблица)
-.courses-compact {
+.compact-table {
+  width: 100%;
+  border-collapse: collapse;
   background: white;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  margin-bottom: 40px;
-}
-
-.compact-table {
-  width: 100%;
-  border-collapse: collapse;
   
   th {
     background: $light-pink;
@@ -617,9 +172,15 @@
   }
   
   td {
-    padding: 12px 15px;
+    padding: 10px 15px;
     border-bottom: 1px solid $light-pink;
-    color: $text-soft;
+    
+    .compact-title {
+      app-course-card {
+        display: block;
+        margin: -10px -15px;
+      }
+    }
   }
   
   tr:last-child td {
@@ -627,113 +188,6 @@
   }
   
   tr:hover td {
-    background: rgba($light-pink, 0.3);
-  }
-  
-  .compact-title {
-    font-weight: 600;
-    color: $text-dark;
-    
-    .compact-category {
-      margin-right: 8px;
-      font-size: 1.2rem;
-    }
-  }
-  
-  .compact-level {
-    padding: 4px 10px;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    
-    &.level-beginner {
-      background: $light-mint;
-      color: $medium-green;
-    }
-    
-    &.level-intermediate {
-      background: $light-pink;
-      color: $medium-pink;
-    }
-    
-    &.level-advanced {
-      background: $soft-pink;
-      color: white;
-    }
-  }
-  
-  .compact-rating {
-    color: #ffc107;
-    font-weight: 600;
-  }
-  
-  .compact-price {
-    font-weight: 600;
-    
-    .old-price {
-      font-size: 0.9rem;
-      color: $text-soft;
-      text-decoration: line-through;
-      margin-right: 8px;
-    }
-  }
-}
-
-.back-link-container {
-  text-align: center;
-  margin-top: 40px;
-}
-
-.back-link {
-  display: inline-block;
-  padding: 12px 30px;
-  background: white;
-  color: $text-dark;
-  text-decoration: none;
-  border-radius: 30px;
-  border: 2px solid $light-pink;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background: $light-pink;
-    border-color: $medium-pink;
-    transform: translateY(-2px);
-  }
-}
-
-// Адаптивность
-@media (max-width: 768px) {
-  .page-header h1 {
-    font-size: 2.2rem;
-  }
-  
-  .stats-banner {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .filters-grid {
-    grid-template-columns: 1fr !important;
-  }
-  
-  .courses-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .list-item-header {
-    flex-wrap: wrap;
-    
-    .category-icon-large {
-      width: 100%;
-    }
-    
-    .list-item-badges {
-      width: 100%;
-      justify-content: flex-start;
-    }
-  }
-  
-  .compact-table {
-    display: block;
-    overflow-x: auto;
+    background: rgba($light-pink, 0.2);
   }
 }

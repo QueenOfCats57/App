@@ -1,0 +1,107 @@
+<div #cardElement
+     class="course-card"
+     [ngClass]="getCardClasses()"
+     [class.expanded]="showFullDescription"
+     (click)="onCardClick()">
+  
+  <!-- Бейджи -->
+  <div class="course-badges">
+    <span class="badge popular" *ngIf="course.isPopular">🔥 Популярный</span>
+    <span class="badge new" *ngIf="course.isNew">✨ Новинка</span>
+    <span class="badge discount" *ngIf="course.hasDiscount">💥 Скидка</span>
+  </div>
+
+  <!-- Контент в зависимости от режима отображения -->
+  <ng-container [ngSwitch]="viewMode">
+    
+    <!-- Grid режим -->
+    <div *ngSwitchCase="'grid'" class="grid-view">
+      <div class="course-header">
+        <span class="category-icon">{{ getCategoryIcon(course.category) }}</span>
+        <h3 #titleElement class="course-title">{{ course.title }}</h3>
+      </div>
+
+      <p class="course-description">
+        {{ showFullDescription ? course.description : (course.description | slice:0:100) + '...' }}
+        <button class="toggle-desc-btn" (click)="toggleDescription(); $event.stopPropagation()">
+          {{ showFullDescription ? '▲' : '▼' }}
+        </button>
+      </p>
+
+      <div class="teacher-info">
+        <span class="teacher-avatar">{{ course.teacher.avatar }}</span>
+        <span class="teacher-name">{{ course.teacher.name }}</span>
+        <span class="teacher-experience">⭐ {{ course.teacher.experience }} лет</span>
+      </div>
+
+      <div class="course-details">
+        <span class="course-level" [ngClass]="getCourseLevelClass(course.level)">
+          {{ getCourseLevelLabel(course.level) }}
+        </span>
+        <span class="course-duration">📅 {{ course.duration }} нед.</span>
+        <span class="course-students">👥 {{ course.students | number }}</span>
+      </div>
+    </div>
+
+    <!-- List режим -->
+    <div *ngSwitchCase="'list'" class="list-view">
+      <div class="list-header">
+        <span class="category-icon-large">{{ getCategoryIcon(course.category) }}</span>
+        <div class="list-title-section">
+          <h3>{{ course.title }}</h3>
+          <p class="teacher-name-small">{{ course.teacher.name }} • {{ course.teacher.experience }} лет опыта</p>
+        </div>
+      </div>
+
+      <p class="list-description">{{ course.description }}</p>
+
+      <div class="list-details">
+        <span class="detail-item" [ngClass]="getCourseLevelClass(course.level)">
+          {{ getCourseLevelLabel(course.level) }}
+        </span>
+        <span class="detail-item">📅 {{ course.duration }} нед.</span>
+        <span class="detail-item">👥 {{ course.students | number }} студентов</span>
+        <span class="detail-item">⭐ {{ course.rating }}</span>
+      </div>
+    </div>
+
+    <!-- Compact режим -->
+    <div *ngSwitchCase="'compact'" class="compact-view">
+      <span class="compact-category">{{ getCategoryIcon(course.category) }}</span>
+      <span class="compact-title">{{ course.title }}</span>
+      <span class="compact-level" [ngClass]="getCourseLevelClass(course.level)">
+        {{ getCourseLevelLabel(course.level) }}
+      </span>
+      <span class="compact-duration">{{ course.duration }}н</span>
+      <span class="compact-rating">⭐ {{ course.rating }}</span>
+    </div>
+  </ng-container>
+
+  <!-- Футер с ценой и действиями (общий для всех режимов) -->
+  <div class="course-footer">
+    <div class="course-rating" *ngIf="viewMode !== 'compact'">
+      <span class="stars">⭐</span>
+      <span class="rating-value">{{ course.rating }}</span>
+    </div>
+
+    <div class="course-price">
+      <span *ngIf="course.hasDiscount" class="old-price">{{ course.price | number }} ₽</span>
+      <span class="current-price" [style.color]="course.hasDiscount ? '#f06292' : '#2c3e50'">
+        {{ getPriceWithDiscount() | number }} ₽
+      </span>
+    </div>
+
+    <div class="card-actions">
+      <button #likeButton
+              class="like-btn"
+              [class.liked]="isLiked"
+              (click)="toggleLike($event)">
+        ❤️
+      </button>
+      <button class="details-btn"
+              (click)="onViewDetails($event)">
+        Подробнее
+      </button>
+    </div>
+  </div>
+</div>

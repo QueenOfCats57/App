@@ -1,298 +1,150 @@
 <div class="course-list-container">
-  <!-- Заголовок с ngStyle -->
-  <div class="page-header"
-       [ngStyle]="{
-         'background': isFiltersVisible ? 'linear-gradient(135deg, #e8f5e9, #fce4ec)' : 'white',
-         'padding': isFiltersVisible ? '30px' : '20px'
-       }">
-    <h1>
+  <!-- Заголовок с шаблонной переменной -->
+  <div class="page-header">
+    <h1 #pageTitle class="main-title">
       <span class="header-icon">📚</span>
       Каталог курсов
     </h1>
     <p class="subtitle">Найдите идеальный курс для изучения английского</p>
-    
-    <!-- Статистика с ngIf -->
-    <div class="stats-banner" *ngIf="isFiltersVisible">
-      <div class="stat-item">
-        <span class="stat-value">{{ totalCourses }}</span>
-        <span class="stat-label">курсов</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">{{ averageRating }}</span>
-        <span class="stat-label">ср. рейтинг</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">{{ totalStudents | number }}</span>
-        <span class="stat-label">студентов</span>
-      </div>
-    </div>
   </div>
 
-  <!-- Кнопка показа/скрытия фильтров (демонстрация ngIf) -->
+  <!-- Компонент статистики с ContentChild -->
+  <app-course-statistics 
+    [totalCourses]="totalCourses"
+    [averageRating]="averageRating"
+    [totalStudents]="totalStudents">
+    
+    <!-- ContentChild шаблон для заголовка -->
+    <ng-template #statHeader>
+      <div class="custom-stat-header">
+        <span class="stat-emoji">📊</span>
+        <span>Статистика платформы</span>
+      </div>
+    </ng-template>
+    
+    <!-- ContentChild шаблон для подвала -->
+    <ng-template #statFooter>
+      <div class="custom-stat-footer">
+        <span>🔥 {{ filteredCourses.length }} курсов по вашему запросу</span>
+      </div>
+    </ng-template>
+  </app-course-statistics>
+
+  <!-- Кнопка показа/скрытия фильтров -->
   <button class="toggle-filters-btn" (click)="toggleFilters()">
     {{ isFiltersVisible ? '▼ Скрыть фильтры' : '▶ Показать фильтры' }}
   </button>
 
-  <!-- Панель фильтров с ngIf -->
-  <div class="filters-panel" *ngIf="isFiltersVisible">
-    <!-- Поиск -->
-    <div class="search-box">
-      <input type="text"
-             [(ngModel)]="searchQuery"
-             placeholder="🔍 Поиск курсов..."
-             class="search-input">
-    </div>
+  <!-- Компонент фильтров -->
+  <app-course-filter #filterComponent
+    [selectedLevel]="selectedLevel"
+    [selectedCategory]="selectedCategory"
+    [showOnlyPopular]="showOnlyPopular"
+    [showOnlyNew]="showOnlyNew"
+    [searchQuery]="searchQuery"
+    [sortBy]="sortBy"
+    [sortDirection]="sortDirection"
+    [isVisible]="isFiltersVisible"
+    (selectedLevelChange)="onLevelChange($event)"
+    (selectedCategoryChange)="onCategoryChange($event)"
+    (showOnlyPopularChange)="onPopularChange($event)"
+    (showOnlyNewChange)="onNewChange($event)"
+    (searchQueryChange)="onSearchChange($event)"
+    (sortByChange)="onSortByChange($event)"
+    (sortDirectionChange)="onSortDirectionChange($event)"
+    (resetFilters)="resetAllFilters()">
+  </app-course-filter>
 
-    <div class="filters-grid">
-      <!-- Фильтр по уровню -->
-      <div class="filter-group">
-        <label>Уровень:</label>
-        <select [(ngModel)]="selectedLevel" class="filter-select">
-          <option value="all">Все уровни</option>
-          <option value="beginner">Начинающий</option>
-          <option value="intermediate">Средний</option>
-          <option value="advanced">Продвинутый</option>
-        </select>
-      </div>
-
-      <!-- Фильтр по категории -->
-      <div class="filter-group">
-        <label>Категория:</label>
-        <select [(ngModel)]="selectedCategory" class="filter-select">
-          <option value="all">Все категории</option>
-          <option value="general">Общий</option>
-          <option value="business">Бизнес</option>
-          <option value="exam">Экзамены</option>
-          <option value="conversation">Разговорный</option>
-        </select>
-      </div>
-
-      <!-- Чекбоксы с ngIf для демонстрации -->
-      <div class="filter-group checkbox-group">
-        <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="showOnlyPopular">
-          <span>🔥 Только популярные</span>
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="showOnlyNew">
-          <span>✨ Только новые</span>
-        </label>
-      </div>
-
-      <!-- Сортировка -->
-      <div class="filter-group sort-group">
-        <label>Сортировать:</label>
-        <select [(ngModel)]="sortBy" class="filter-select">
-          <option value="rating">По рейтингу</option>
-          <option value="price">По цене</option>
-          <option value="students">По популярности</option>
-          <option value="duration">По длительности</option>
-          <option value="title">По названию</option>
-        </select>
-        <button class="sort-direction-btn" (click)="toggleSortDirection()">
-          {{ sortDirection === 'asc' ? '↑' : '↓' }}
-        </button>
-      </div>
-
-      <!-- Кнопка сброса -->
-      <button class="reset-filters-btn" (click)="resetFilters()">
-        Сбросить фильтры
-      </button>
-    </div>
-  </div>
-
-  <!-- Переключатель вида (ngSwitch) -->
+  <!-- Переключатель вида с шаблонными переменными -->
   <div class="view-switcher">
-    <button [class.active]="selectedViewMode === 'grid'"
-            (click)="selectedViewMode = 'grid'">
+    <button #gridBtn
+            [class.active]="selectedViewMode === 'grid'"
+            (click)="changeViewMode('grid')">
       📱 Сетка
     </button>
-    <button [class.active]="selectedViewMode === 'list'"
-            (click)="selectedViewMode = 'list'">
+    <button #listBtn
+            [class.active]="selectedViewMode === 'list'"
+            (click)="changeViewMode('list')">
       📋 Список
     </button>
-    <button [class.active]="selectedViewMode === 'compact'"
-            (click)="selectedViewMode = 'compact'">
+    <button #compactBtn
+            [class.active]="selectedViewMode === 'compact'"
+            (click)="changeViewMode('compact')">
       📊 Компактный
     </button>
   </div>
 
-  <!-- Информация о количестве найденных курсов (ngIf) -->
+  <!-- Информация о результатах -->
   <div class="results-info" *ngIf="filteredCourses.length > 0">
     Найдено курсов: {{ filteredCourses.length }}
   </div>
+  
   <div class="no-results" *ngIf="filteredCourses.length === 0">
     <p>😕 По вашему запросу ничего не найдено</p>
-    <button class="reset-btn" (click)="resetFilters()">Сбросить фильтры</button>
+    <button class="reset-btn" (click)="resetAllFilters()">Сбросить фильтры</button>
   </div>
 
-  <!-- ngSwitch для разных режимов отображения -->
-  <div [ngSwitch]="selectedViewMode">
+  <!-- Отображение курсов с использованием компонента CourseCard -->
+  <div [ngSwitch]="selectedViewMode" class="courses-display">
     <!-- Grid режим -->
-    <div class="courses-grid" *ngSwitchCase="'grid'">
-      <div *ngFor="let course of filteredCourses"
-           class="course-card"
-           [ngClass]="getCourseCardClasses(course)"
-           [ngStyle]="getCourseCardStyle(course)"
-           (mouseenter)="highlightCourse(course.id)"
-           (mouseleave)="highlightCourse(null)">
-        
-        <!-- Бейджи с ngIf -->
-        <div class="course-badges">
-          <span class="badge popular" *ngIf="course.isPopular">🔥 Популярный</span>
-          <span class="badge new" *ngIf="course.isNew">✨ Новинка</span>
-          <span class="badge discount" *ngIf="course.hasDiscount">💥 Скидка</span>
-        </div>
-
-        <!-- Заголовок курса -->
-        <div class="course-header">
-          <span class="category-icon">{{ getCategoryIcon(course.category) }}</span>
-          <h3 class="course-title">{{ course.title }}</h3>
-        </div>
-
-        <!-- Описание (обрезанное) -->
-        <p class="course-description">{{ course.description | slice:0:100 }}...</p>
-
-        <!-- Информация о преподавателе -->
-        <div class="teacher-info">
-          <span class="teacher-avatar">{{ course.teacher.avatar }}</span>
-          <span class="teacher-name">{{ course.teacher.name }}</span>
-          <span class="teacher-experience">⭐ {{ course.teacher.experience }} лет</span>
-        </div>
-
-        <!-- Детали курса -->
-        <div class="course-details">
-          <!-- ngClass для уровня -->
-          <span class="course-level" 
-                [ngClass]="getCourseLevelClass(course.level)">
-            {{ getCourseLevelLabel(course.level) }}
-          </span>
-          
-          <span class="course-duration">
-            📅 {{ course.duration }} нед.
-          </span>
-          
-          <span class="course-students">
-            👥 {{ course.students | number }}
-          </span>
-        </div>
-
-        <!-- Рейтинг и цена -->
-        <div class="course-footer">
-          <div class="course-rating">
-            <span class="stars">⭐</span>
-            <span class="rating-value">{{ course.rating }}</span>
-          </div>
-          
-          <div class="course-price">
-            <!-- ngIf для отображения цены со скидкой -->
-            <span class="price">
-              <span *ngIf="course.hasDiscount" class="old-price">{{ course.price | number }} ₽</span>
-              <span class="current-price" 
-                    [ngStyle]="{'color': course.hasDiscount ? '#f06292' : '#2c3e50'}">
-                {{ getPriceWithDiscount(course) | number }} ₽
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>
+    <div *ngSwitchCase="'grid'" class="courses-grid">
+      <app-course-card #filterElement
+        *ngFor="let course of filteredCourses"
+        [course]="course"
+        [viewMode]="'grid'"
+        [isHighlighted]="highlightedCourseId === course.id"
+        (cardClick)="onCardClick($event)"
+        (like)="onCourseLike($event)"
+        (viewDetails)="onViewDetails($event)">
+      </app-course-card>
     </div>
 
     <!-- List режим -->
-    <div class="courses-list" *ngSwitchCase="'list'">
-      <div *ngFor="let course of filteredCourses"
-           class="course-list-item"
-           [ngClass]="getCourseCardClasses(course)"
-           [ngStyle]="getCourseCardStyle(course)"
-           (mouseenter)="highlightCourse(course.id)"
-           (mouseleave)="highlightCourse(null)">
-        
-        <div class="list-item-content">
-          <div class="list-item-header">
-            <span class="category-icon-large">{{ getCategoryIcon(course.category) }}</span>
-            <div class="list-item-title">
-              <h3>{{ course.title }}</h3>
-              <p class="teacher-name-small">{{ course.teacher.name }} • {{ course.teacher.experience }} лет опыта</p>
-            </div>
-            
-            <!-- Бейджи -->
-            <div class="list-item-badges">
-              <span class="badge popular" *ngIf="course.isPopular">🔥</span>
-              <span class="badge new" *ngIf="course.isNew">✨</span>
-              <span class="badge discount" *ngIf="course.hasDiscount">💥</span>
-            </div>
-          </div>
-          
-          <p class="list-item-description">{{ course.description }}</p>
-          
-          <div class="list-item-details">
-            <span class="detail-item" [ngClass]="getCourseLevelClass(course.level)">
-              {{ getCourseLevelLabel(course.level) }}
-            </span>
-            <span class="detail-item">📅 {{ course.duration }} недель</span>
-            <span class="detail-item">👥 {{ course.students | number }} студентов</span>
-            <span class="detail-item">⭐ {{ course.rating }}</span>
-          </div>
-          
-          <div class="list-item-footer">
-            <div class="list-item-price">
-              <span *ngIf="course.hasDiscount" class="old-price">{{ course.price | number }} ₽</span>
-              <span class="current-price-large">{{ getPriceWithDiscount(course) | number }} ₽</span>
-            </div>
-            <button class="details-btn">Подробнее</button>
-          </div>
-        </div>
-      </div>
+    <div *ngSwitchCase="'list'" class="courses-list">
+      <app-course-card #filterElement
+        *ngFor="let course of filteredCourses"
+        [course]="course"
+        [viewMode]="'list'"
+        [isHighlighted]="highlightedCourseId === course.id"
+        (cardClick)="onCardClick($event)"
+        (like)="onCourseLike($event)"
+        (viewDetails)="onViewDetails($event)">
+      </app-course-card>
     </div>
 
-    <!-- Compact режим -->
-    <div class="courses-compact" *ngSwitchCase="'compact'">
+    <!-- Compact режим (таблица) -->
+    <div *ngSwitchCase="'compact'" class="courses-compact">
       <table class="compact-table">
         <thead>
           <tr>
             <th>Курс</th>
             <th>Уровень</th>
             <th>Длит.</th>
-            <th>Студенты</th>
             <th>Рейтинг</th>
             <th>Цена</th>
+            <th>Действия</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let course of filteredCourses"
-              [ngClass]="getCourseCardClasses(course)"
-              [ngStyle]="{'background': highlightedCourseId === course.id ? '#fce4ec' : 'transparent'}"
-              (mouseenter)="highlightCourse(course.id)"
-              (mouseleave)="highlightCourse(null)">
-            
+          <tr *ngFor="let course of filteredCourses">
             <td class="compact-title">
-              <span class="compact-category">{{ getCategoryIcon(course.category) }}</span>
-              {{ course.title }}
-            </td>
-            <td>
-              <span class="compact-level" [ngClass]="getCourseLevelClass(course.level)">
-                {{ getCourseLevelLabel(course.level) }}
-              </span>
-            </td>
-            <td>{{ course.duration }}н</td>
-            <td>{{ course.students | number }}</td>
-            <td>
-              <span class="compact-rating">⭐ {{ course.rating }}</span>
-            </td>
-            <td class="compact-price">
-              <span *ngIf="course.hasDiscount" class="old-price">{{ course.price | number }}</span>
-              <span>{{ getPriceWithDiscount(course) | number }} ₽</span>
+              <app-course-card #filterElement
+                [course]="course"
+                [viewMode]="'compact'"
+                [isHighlighted]="highlightedCourseId === course.id"
+                (cardClick)="onCardClick($event)"
+                (like)="onCourseLike($event)"
+                (viewDetails)="onViewDetails($event)">
+              </app-course-card>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    <!-- Default случай для ngSwitch -->
-    <div *ngSwitchDefault>
-      <p>Режим отображения не выбран</p>
-    </div>
   </div>
+
+  <!-- Дополнительный контент через ng-content (для демонстрации) -->
+  <ng-content></ng-content>
 
   <!-- Кнопка "На главную" -->
   <div class="back-link-container">

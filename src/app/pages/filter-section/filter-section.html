@@ -1,0 +1,17 @@
+<div class="filter-section" [class.expanded]="isExpanded">
+  <div class="section-header" (click)="toggleSection()">
+    <span class="section-icon">{{ icon }}</span>
+    <h3 class="section-title">{{ title }}</h3>
+    <span class="toggle-icon">{{ isExpanded ? '▼' : '▶' }}</span>
+  </div>
+  
+  <div class="section-content" *ngIf="isExpanded">
+    <!-- ng-content для проекции контента -->
+    <ng-content></ng-content>
+    
+    <!-- Демонстрация ContentChildren -->
+    <div class="content-info" *ngIf="contentChildren.length > 0">
+      <small>✨ {{ contentChildren.length }} элементов внутри</small>
+    </div>
+  </div>
+</div>

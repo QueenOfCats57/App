@@ -1,0 +1,414 @@
+@import '../../../styles.scss';
+
+.course-card {
+  background: white;
+  border-radius: 30px 15px 30px 15px;
+  padding: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  }
+
+  &.popular-course {
+    border-color: $soft-pink;
+  }
+
+  &.new-course {
+    border-color: $soft-green;
+  }
+
+  &.discount-course {
+    background: linear-gradient(135deg, white, $light-pink);
+  }
+
+  &.highlighted {
+    border-width: 3px;
+    border-color: $medium-pink;
+    box-shadow: 0 10px 30px rgba($medium-pink, 0.3);
+  }
+
+  &.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    z-index: 1000;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.course-badges {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  z-index: 2;
+}
+
+.badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  animation: slideIn 0.3s ease;
+
+  &.popular {
+    background: linear-gradient(135deg, #ff9800, #f44336);
+  }
+
+  &.new {
+    background: linear-gradient(135deg, $soft-green, $medium-green);
+  }
+
+  &.discount {
+    background: linear-gradient(135deg, $soft-pink, $dark-pink);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Grid View
+.grid-view {
+  .course-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-right: 60px;
+
+    .category-icon {
+      font-size: 2rem;
+    }
+
+    .course-title {
+      font-size: 1.3rem;
+      margin: 0;
+      color: $text-dark;
+      line-height: 1.4;
+    }
+  }
+
+  .course-description {
+    color: $text-soft;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    min-height: 60px;
+    position: relative;
+
+    .toggle-desc-btn {
+      background: none;
+      border: none;
+      color: $medium-pink;
+      cursor: pointer;
+      padding: 0 5px;
+      font-size: 0.9rem;
+
+      &:hover {
+        color: $dark-pink;
+      }
+    }
+  }
+
+  .teacher-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background: rgba($light-pink, 0.3);
+    border-radius: 15px;
+    margin-bottom: 15px;
+
+    .teacher-avatar {
+      font-size: 1.5rem;
+    }
+
+    .teacher-name {
+      font-weight: 600;
+      color: $text-dark;
+    }
+
+    .teacher-experience {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: $medium-pink;
+    }
+  }
+
+  .course-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+
+    span {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      background: rgba($light-mint, 0.5);
+    }
+
+    .course-level {
+      font-weight: 600;
+
+      &.level-beginner {
+        background: $light-mint;
+        color: $medium-green;
+      }
+
+      &.level-intermediate {
+        background: $light-pink;
+        color: $medium-pink;
+      }
+
+      &.level-advanced {
+        background: $soft-pink;
+        color: white;
+      }
+
+      &.level-all {
+        background: $soft-green;
+        color: white;
+      }
+    }
+  }
+}
+
+// List View
+.list-view {
+  .list-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+
+    .category-icon-large {
+      font-size: 2.5rem;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .list-title-section {
+      flex: 1;
+
+      h3 {
+        margin: 0 0 5px 0;
+        font-size: 1.4rem;
+        color: $text-dark;
+      }
+
+      .teacher-name-small {
+        margin: 0;
+        color: $text-soft;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .list-description {
+    color: $text-soft;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .list-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    .detail-item {
+      padding: 5px 15px;
+      border-radius: 20px;
+      background: rgba($light-mint, 0.5);
+      font-size: 0.95rem;
+
+      &.level-beginner {
+        background: $light-mint;
+        color: $medium-green;
+      }
+
+      &.level-intermediate {
+        background: $light-pink;
+        color: $medium-pink;
+      }
+
+      &.level-advanced {
+        background: $soft-pink;
+        color: white;
+      }
+    }
+  }
+}
+
+// Compact View
+.compact-view {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+
+  .compact-category {
+    font-size: 1.2rem;
+    min-width: 30px;
+  }
+
+  .compact-title {
+    flex: 1;
+    font-weight: 600;
+    color: $text-dark;
+  }
+
+  .compact-level {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    min-width: 100px;
+    text-align: center;
+
+    &.level-beginner {
+      background: $light-mint;
+      color: $medium-green;
+    }
+
+    &.level-intermediate {
+      background: $light-pink;
+      color: $medium-pink;
+    }
+
+    &.level-advanced {
+      background: $soft-pink;
+      color: white;
+    }
+  }
+
+  .compact-duration {
+    color: $text-soft;
+    min-width: 50px;
+  }
+
+  .compact-rating {
+    color: #ffc107;
+    font-weight: 600;
+    min-width: 60px;
+  }
+}
+
+// Footer (общий для всех режимов)
+.course-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  margin-top: auto;
+  border-top: 2px dashed $light-pink;
+
+  .course-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .stars {
+      color: #ffc107;
+    }
+
+    .rating-value {
+      font-weight: 600;
+      color: $text-dark;
+    }
+  }
+
+  .course-price {
+    .old-price {
+      font-size: 0.9rem;
+      color: $text-soft;
+      text-decoration: line-through;
+      margin-right: 8px;
+    }
+
+    .current-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 10px;
+
+    .like-btn {
+      background: none;
+      border: 2px solid $light-pink;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        background: $light-pink;
+      }
+
+      &.liked {
+        background: $dark-pink;
+        border-color: $dark-pink;
+        color: white;
+      }
+    }
+
+    .details-btn {
+      padding: 8px 20px;
+      background: linear-gradient(135deg, $soft-green, $soft-pink);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba($medium-pink, 0.4);
+      }
+    }
+  }
+}
