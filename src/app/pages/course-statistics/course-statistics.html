@@ -1,28 +1,120 @@
 <div #statsContainer class="statistics-container">
+  <!-- Заголовок с жизненным циклом -->
+  <div class="lifecycle-header">
+    <h3>Статистика платформы</h3>
+    <div class="lifecycle-badge">
+      <span class="badge" [style.background]="isInitialized ? '#81c784' : '#f8bbd0'">
+        {{ isInitialized ? 'Активен' : 'Инициализация...' }}
+      </span>
+    </div>
+  </div>
+
   <!-- Использование ContentChild для заголовка -->
   <div class="stat-header" *ngIf="statHeader">
     <ng-container *ngTemplateOutlet="statHeader"></ng-container>
   </div>
-  
+
+  <!-- Основная статистика -->
   <div class="stats-grid">
-    <div class="stat-item" [class.animated]="isAnimated">
-      <span class="stat-value">{{ totalCourses }}</span>
+    <div class="stat-item" [class.updated]="oldTotalCourses !== totalCourses">
+      <span #statValue class="stat-value">{{ formatNumber(totalCourses) }}</span>
       <span class="stat-label">курсов</span>
+      <small class="change-indicator" *ngIf="oldTotalCourses !== totalCourses">
+        {{ totalCourses > oldTotalCourses ? '↑' : '↓' }}
+      </small>
     </div>
     
-    <div class="stat-item" [class.animated]="isAnimated">
-      <span class="stat-value">{{ averageRating }}</span>
+    <div class="stat-item" [class.updated]="oldAverageRating !== averageRating">
+      <span class="stat-value">{{ averageRating.toFixed(1) }}</span>
       <span class="stat-label">ср. рейтинг</span>
+      <small class="change-indicator" *ngIf="oldAverageRating !== averageRating">
+        {{ averageRating > oldAverageRating ? '↑' : '↓' }}
+      </small>
     </div>
     
-    <div class="stat-item" [class.animated]="isAnimated">
+    <div class="stat-item" [class.updated]="oldTotalStudents !== totalStudents">
       <span class="stat-value">{{ formatNumber(totalStudents) }}</span>
       <span class="stat-label">студентов</span>
+      <small class="change-indicator" *ngIf="oldTotalStudents !== totalStudents">
+        {{ totalStudents > oldTotalStudents ? '↑' : '↓' }}
+      </small>
     </div>
   </div>
-  
-  <!-- Использование ContentChild для подвала -->
+
+  <!-- Информация о жизненном цикле -->
+  <div class="lifecycle-info">
+    <h4>Жизненный цикл компонента</h4>
+    
+    <div class="hooks-grid">
+      <div class="hook-item">
+        <span class="hook-name">ngOnInit</span>
+        <span class="hook-time">{{ getExecutionTime('ngOnInit') }}</span>
+      </div>
+      
+      <div class="hook-item">
+        <span class="hook-name">ngOnChanges</span>
+        <span class="hook-time">{{ getExecutionTime('ngOnChanges') }}</span>
+        <span class="hook-status" [class.active]="changes.length > 0"></span>
+      </div>
+      
+      <div class="hook-item">
+        <span class="hook-name">ngDoCheck</span>
+        <span class="hook-time">{{ getExecutionTime('ngDoCheck') }}</span>
+      </div>
+      
+      <div class="hook-item">
+        <span class="hook-name">ngAfterContentInit</span>
+        <span class="hook-time">{{ getExecutionTime('ngAfterContentInit') }}</span>
+      </div>
+
+      <div class="hook-item">
+        <span class="hook-name">ngAfterContentChecked</span>
+        <span class="hook-time">{{ getExecutionTime('ngAfterContentChecked') }}</span>
+      </div>
+      
+      <div class="hook-item">
+        <span class="hook-name">ngAfterViewInit</span>
+        <span class="hook-time">{{ getExecutionTime('ngAfterViewInit') }}</span>
+      </div>
+      
+      <div class="hook-item">
+        <span class="hook-name">ngAfterViewChecked</span>
+        <span class="hook-time">{{ getExecutionTime('ngAfterViewChecked') }}</span>
+      </div>
+    </div>
+    
+    <div class="total-time">
+      <strong>Общее время выполнения:</strong> {{ getTotalExecutionTime() }}
+    </div>
+    
+    <div class="update-counter">
+      <strong>Обнаружено изменений:</strong> {{ updateCounter }}
+    </div>
+  </div>
+
+  <!-- История изменений -->
+  <div class="changes-history" *ngIf="changes.length > 0">
+    <h4>Последние изменения</h4>
+    <div class="changes-list">
+      <div *ngFor="let change of changes.slice(0, 3)" class="change-item">
+        <span class="change-property">{{ change.property }}</span>
+        <span class="change-values">
+          {{ change.oldValue }} → {{ change.newValue }}
+        </span>
+        <span class="change-time">{{ change.changeTime | date:'HH:mm:ss' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Использование ContentChild для футера -->
   <div class="stat-footer" *ngIf="statFooter">
     <ng-container *ngTemplateOutlet="statFooter"></ng-container>
+  </div>
+
+  <!-- Кнопки для демонстрации -->
+  <div class="demo-controls">
+    <button class="demo-btn" (click)="forceChanges()">
+      Принудительные изменения
+    </button>
   </div>
 </div>

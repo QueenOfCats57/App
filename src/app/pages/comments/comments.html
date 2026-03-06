@@ -66,7 +66,7 @@
              [attr.min]="0.5"
              [attr.max]="1"
              [attr.step]="0.1">
-      <span>{{ chatOpacity * 100 }}%</span>
+      <span>{{ chatOpacity * 0 }}%</span>
     </div>
   </div>
 
@@ -166,7 +166,7 @@
 
   <!-- Статистика (привязка свойств) -->
   <div class="chat-stats" *ngIf="isChatExpanded">
-    <span>📊 Всего комментариев: {{ totalComments }}</span>
-    <span>❤️ Всего лайков: {{ totalLikes }}</span>
+    <span>Всего комментариев: {{ totalComments }}</span>
+    <span>Всего лайков: {{ totalLikes }}</span>
   </div>
 </div>

@@ -84,20 +84,3 @@
     transform: translateY(0);
   }
 }
-
-// Адаптивность
-@media (max-width: 768px) {
-  .filter-section {
-    .section-header {
-      padding: 12px;
-      
-      .section-title {
-        font-size: 1rem;
-      }
-    }
-    
-    .section-content {
-      padding: 15px;
-    }
-  }
-}

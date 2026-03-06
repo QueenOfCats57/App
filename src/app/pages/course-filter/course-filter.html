@@ -1,5 +1,4 @@
 <div class="filters-panel" *ngIf="isVisible">
-  <!-- Search Section с ng-content -->
   <app-filter-section title="Поиск" icon="🔍" [isExpanded]="true">
     <input #filterInput
            type="text"
@@ -9,7 +8,6 @@
            class="search-input">
   </app-filter-section>
 
-  <!-- Level Section -->
   <app-filter-section title="Уровень" icon="📊" [isExpanded]="true">
     <select #filterInput
             [ngModel]="selectedLevel"
@@ -22,7 +20,6 @@
     </select>
   </app-filter-section>
 
-  <!-- Category Section -->
   <app-filter-section title="Категория" icon="📚" [isExpanded]="true">
     <select #filterInput
             [ngModel]="selectedCategory"
@@ -36,25 +33,23 @@
     </select>
   </app-filter-section>
 
-  <!-- Additional Filters Section -->
   <app-filter-section title="Дополнительно" icon="⚙️" [isExpanded]="false">
     <div class="checkbox-group">
       <label class="checkbox-label">
         <input type="checkbox"
                [ngModel]="showOnlyPopular"
                (ngModelChange)="onPopularChange($event)">
-        <span>🔥 Только популярные</span>
+        <span>Только популярные</span>
       </label>
       <label class="checkbox-label">
         <input type="checkbox"
                [ngModel]="showOnlyNew"
                (ngModelChange)="onNewChange($event)">
-        <span>✨ Только новые</span>
+        <span>Только новые</span>
       </label>
     </div>
   </app-filter-section>
 
-  <!-- Sort Section -->
   <app-filter-section title="Сортировка" icon="🔄" [isExpanded]="true">
     <div class="sort-controls">
       <select [ngModel]="sortBy"
@@ -72,7 +67,6 @@
     </div>
   </app-filter-section>
 
-  <!-- Reset Button -->
   <button class="reset-filters-btn" (click)="onResetFilters()">
     Сбросить все фильтры
   </button>

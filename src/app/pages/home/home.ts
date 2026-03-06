@@ -16,7 +16,6 @@ export class Home {
 
   onCommentAdded(comment: Comment) {
     console.log('Новый комментарий:', comment);
-    // Здесь можно добавить логику, например, отправку на сервер
   }
 
   onTitleChange(newTitle: string) {

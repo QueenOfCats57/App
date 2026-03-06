@@ -6,7 +6,6 @@
   padding: 20px;
 }
 
-// Заголовок страницы
 .page-header {
   text-align: center;
   margin-bottom: 30px;
@@ -31,7 +30,6 @@
   }
 }
 
-// Анимации
 @keyframes slideInDown {
   from {
     opacity: 0;
@@ -61,7 +59,6 @@
   }
 }
 
-// Кастомные стили для статистики
 .custom-stat-header {
   display: flex;
   align-items: center;
@@ -88,7 +85,6 @@
   }
 }
 
-// Кнопка переключения фильтров
 .toggle-filters-btn {
   display: block;
   width: 100%;
@@ -110,7 +106,6 @@
   }
 }
 
-// Переключатель режимов отображения
 .view-switcher {
   display: flex;
   justify-content: center;
@@ -144,7 +139,6 @@
   }
 }
 
-// Информация о результатах поиска
 .results-info {
   text-align: center;
   margin-bottom: 20px;
@@ -155,7 +149,6 @@
   border-radius: 30px;
 }
 
-// Сообщение об отсутствии результатов
 .no-results {
   text-align: center;
   padding: 60px;
@@ -188,12 +181,10 @@
   }
 }
 
-// Контейнер для отображения курсов
 .courses-display {
   min-height: 400px;
 }
 
-// Grid режим отображения
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -201,7 +192,6 @@
   margin-bottom: 40px;
 }
 
-// List режим отображения
 .courses-list {
   display: flex;
   flex-direction: column;
@@ -209,7 +199,6 @@
   margin-bottom: 40px;
 }
 
-// Compact режим отображения (таблица)
 .compact-table {
   width: 100%;
   border-collapse: collapse;
@@ -266,7 +255,6 @@
   }
 }
 
-// Кнопка возврата на главную
 .back-link-container {
   text-align: center;
   margin-top: 40px;
@@ -288,63 +276,5 @@
     border-color: $medium-pink;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba($medium-pink, 0.2);
-  }
-}
-
-// Адаптивность для мобильных устройств
-@media (max-width: 768px) {
-  .course-list-container {
-    padding: 10px;
-  }
-  
-  .page-header {
-    .main-title {
-      font-size: 2rem;
-    }
-    
-    .subtitle {
-      font-size: 1rem;
-    }
-  }
-  
-  .view-switcher {
-    flex-wrap: wrap;
-    
-    button {
-      flex: 1;
-      min-width: 100px;
-      font-size: 0.9rem;
-      padding: 8px 12px;
-    }
-  }
-  
-  .courses-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .compact-table {
-    display: block;
-    overflow-x: auto;
-    
-    th, td {
-      white-space: nowrap;
-      padding: 10px;
-    }
-  }
-  
-  .no-results {
-    padding: 30px;
-    
-    p {
-      font-size: 1.2rem;
-    }
-  }
-}
-
-// Адаптивность для планшетов
-@media (min-width: 769px) and (max-width: 1024px) {
-  .courses-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

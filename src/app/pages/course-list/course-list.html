@@ -21,10 +21,10 @@
       </div>
     </ng-template>
     
-    <!-- ContentChild шаблон для подвала -->
+    <!-- ContentChild шаблон для футера -->
     <ng-template #statFooter>
       <div class="custom-stat-footer">
-        <span>🔥 {{ filteredCourses.length }} курсов по вашему запросу</span>
+        <span>{{ filteredCourses.length }} курсов по вашему запросу</span>
       </div>
     </ng-template>
   </app-course-statistics>
@@ -79,7 +79,7 @@
   </div>
   
   <div class="no-results" *ngIf="filteredCourses.length === 0">
-    <p>😕 По вашему запросу ничего не найдено</p>
+    <p>По вашему запросу ничего не найдено</p>
     <button class="reset-btn" (click)="resetAllFilters()">Сбросить фильтры</button>
   </div>
 

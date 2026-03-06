@@ -14,6 +14,29 @@
   }
 }
 
+.lifecycle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  h3 {
+    margin: 0;
+    color: $text-dark;
+    font-size: 1.3rem;
+  }
+  
+  .lifecycle-badge {
+    .badge {
+      padding: 5px 12px;
+      border-radius: 20px;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+  }
+}
+
 .stat-header {
   margin-bottom: 20px;
   font-size: 1.2rem;
@@ -40,6 +63,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   text-align: center;
+  margin-bottom: 25px;
 }
 
 .stat-item {
@@ -47,9 +71,10 @@
   border-radius: 20px;
   background: linear-gradient(135deg, $light-mint, $light-pink);
   transition: all 0.3s ease;
+  position: relative;
   
-  &.animated {
-    animation: pulse 1s ease;
+  &.updated {
+    animation: pulse 0.5s ease;
   }
   
   &:hover {
@@ -57,6 +82,10 @@
     background: linear-gradient(135deg, $soft-green, $soft-pink);
     
     .stat-value, .stat-label {
+      color: white;
+    }
+    
+    .change-indicator {
       color: white;
     }
   }
@@ -75,6 +104,116 @@
     color: $text-soft;
     font-weight: 500;
   }
+  
+  .change-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $dark-pink;
+    animation: bounce 0.3s ease;
+  }
+}
+
+.lifecycle-info {
+  background: rgba($light-pink, 0.2);
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+  
+  h4 {
+    margin: 0 0 15px 0;
+    color: $text-dark;
+    font-size: 1.1rem;
+  }
+}
+
+.hooks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.hook-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  
+  .hook-name {
+    font-weight: 600;
+    color: $text-dark;
+  }
+  
+  .hook-time {
+    color: $medium-pink;
+    font-family: monospace;
+  }
+  
+  .hook-status {
+    font-size: 1.1rem;
+    
+    &.active {
+      animation: spin 2s linear infinite;
+    }
+  }
+}
+
+.total-time, .update-counter {
+  text-align: right;
+  padding: 5px;
+  color: $text-soft;
+  font-size: 0.9rem;
+}
+
+.changes-history {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+  
+  h4 {
+    margin: 0 0 10px 0;
+    color: $text-dark;
+    font-size: 1rem;
+  }
+}
+
+.changes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.change-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: rgba($light-mint, 0.3);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  
+  .change-property {
+    font-weight: 600;
+    color: $medium-pink;
+    min-width: 80px;
+  }
+  
+  .change-values {
+    flex: 1;
+    color: $text-dark;
+  }
+  
+  .change-time {
+    color: $text-soft;
+    font-size: 0.8rem;
+  }
 }
 
 .stat-footer {
@@ -84,6 +223,41 @@
   text-align: center;
   color: $text-soft;
   font-size: 0.95rem;
+}
+
+.demo-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  
+  .demo-btn {
+    padding: 10px 25px;
+    background: linear-gradient(135deg, $soft-green, $soft-pink);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba($medium-pink, 0.4);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes pulse {
@@ -96,40 +270,20 @@
   }
 }
 
-// Адаптивность
-@media (max-width: 768px) {
-  .statistics-container {
-    padding: 15px;
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
   }
-  
-  .stats-grid {
-    gap: 10px;
-  }
-  
-  .stat-item {
-    padding: 12px;
-    
-    .stat-value {
-      font-size: 1.8rem;
-    }
-    
-    .stat-label {
-      font-size: 0.9rem;
-    }
+  50% {
+    transform: translateY(-5px);
   }
 }
 
-@media (max-width: 480px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .stat-item {
-    padding: 15px;
-    
-    .stat-value {
-      font-size: 2rem;
-    }
+  to {
+    transform: rotate(360deg);
   }
 }

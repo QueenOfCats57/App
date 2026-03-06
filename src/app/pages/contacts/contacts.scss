@@ -82,25 +82,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
-
-    &::before {
-      content: '❓';
-      color: $medium-pink;
-    }
   }
 
   p {
     color: $text-soft;
     padding-left: 30px;
     position: relative;
-
-    &::before {
-      content: '💡';
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: $soft-green;
-    }
   }
 }
 
@@ -137,7 +124,6 @@
   box-shadow: 0 5px 15px rgba($soft-pink, 0.3);
 
   &:hover {
-    transform: translateY(-5px) rotate(360deg);
     background: linear-gradient(135deg, $soft-green, $soft-pink);
     color: white;
   }
@@ -147,14 +133,4 @@
   margin-top: 20px;
   color: $text-soft;
   font-size: 1.1rem;
-  
-  &::before {
-    content: '✨';
-    margin-right: 8px;
-  }
-  
-  &::after {
-    content: '✨';
-    margin-left: 8px;
-  }
 }

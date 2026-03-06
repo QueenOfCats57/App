@@ -383,14 +383,14 @@
 
   .course-price {
     .old-price {
-      font-size: 0.9rem;
+      font-size: 0.6rem;
       color: $text-soft;
       text-decoration: line-through;
       margin-right: 8px;
     }
 
     .current-price {
-      font-size: 1.3rem;
+      font-size: 0.8rem;
       font-weight: 700;
       transition: color 0.3s ease;
     }

@@ -3,17 +3,15 @@
 .clickable-element::before {
   content: '❀';
   position: absolute;
-  top: 20px;
   left: 20px;
-  font-size: 48px;
+  font-size: 40px;
   color: rgba($soft-pink, 0.3);
-  transform: rotate(-15deg);
+  transform: rotate(-20deg);
   pointer-events: none;
 
   position: relative;
   display: inline-block;
-  text-decoration: none;
-  color: inherit;
+  color: $soft-green;
   cursor: pointer;
 }
 
