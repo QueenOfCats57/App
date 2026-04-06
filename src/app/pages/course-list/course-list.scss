@@ -278,3 +278,87 @@
     box-shadow: 0 5px 15px rgba($medium-pink, 0.2);
   }
 }
+
+// Индикатор загрузки
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid $light-pink;
+    border-top-color: $medium-pink;
+    border-right-color: $soft-green;
+    border-bottom-color: $light-pink;
+    border-left-color: $medium-pink;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  p {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: $text-dark;
+    font-weight: 500;
+  }
+}
+
+// Сообщение об ошибке
+.error-message {
+  background: linear-gradient(135deg, #ffebee, #ffcdd2);
+  border-left: 5px solid #f44336;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  
+  .error-icon {
+    font-size: 2rem;
+  }
+  
+  p {
+    flex: 1;
+    color: #c62828;
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  .retry-btn {
+    padding: 8px 20px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: #d32f2f;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,14 +1,30 @@
 <div class="home-container">
   <div class="hero-section">
     <h1 class="main-title">
-      EnglishPro
+      <span>🌟</span> EnglishPro <span>🌟</span>
     </h1>
     <p class="main-subtitle">Твой путь к свободному английскому</p>
     
+    <!-- Блок статистики из сервиса -->
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value">{{ totalCourses }}</span>
+        <span class="hero-stat-label">курсов</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">{{ activeStudents | number }}</span>
+        <span class="hero-stat-label">студентов</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">{{ averageRating }}</span>
+        <span class="hero-stat-label">рейтинг</span>
+      </div>
+    </div>
+    
     <nav class="nav-menu">
-      <a routerLink="/courses" class="nav-link">Курсы</a>
-      <a routerLink="/about" class="nav-link">О школе</a>
-      <a routerLink="/contacts" class="nav-link">Контакты</a>
+      <a routerLink="/courses" class="nav-link">📚 Курсы</a>
+      <a routerLink="/about" class="nav-link">🏫 О школе</a>
+      <a routerLink="/contacts" class="nav-link">📞 Контакты</a>
     </nav>
   </div>
 
@@ -36,16 +52,15 @@
     <p>Присоединяйтесь к сообществу EnglishPro и начните говорить по-английски уже сегодня!</p>
   </section>
 
-  <!-- Добавляем компонент комментариев с демонстрацией всех видов привязок -->
+  <!-- Компонент комментариев -->
   <section class="comments-section">
     <app-comment-chat 
-      [title]="'Обсуждение курсов'"
+      [title]="'💬 Обсуждение курсов EnglishPro'"
       [maxComments]="50"
-      [chatBackgroundColor]="'#ffffff'"
+      [chatBackgroundColor]="chatBgColor"
       (commentAdded)="onCommentAdded($event)"
       (titleChange)="onTitleChange($event)"
       [(chatBackgroundColor)]="chatBgColor">
     </app-comment-chat>
   </section>
 </div>
-<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1" class="clickable-element"></a>

@@ -244,3 +244,53 @@
   background: rgba($white, 0.5);
   border-radius: 40px;
 }
+
+// Блок статистики в hero-секции
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 60px;
+  flex-wrap: wrap;
+  
+  .hero-stat {
+    text-align: center;
+    padding: 10px 20px;
+    
+    .hero-stat-value {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: $medium-pink;
+      line-height: 1.2;
+    }
+    
+    .hero-stat-label {
+      font-size: 0.9rem;
+      color: $text-soft;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+// Адаптивность для статистики
+@media (max-width: 768px) {
+  .hero-stats {
+    gap: 20px;
+    
+    .hero-stat {
+      .hero-stat-value {
+        font-size: 1.5rem;
+      }
+      
+      .hero-stat-label {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

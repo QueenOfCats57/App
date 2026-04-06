@@ -1,19 +1,32 @@
 <div class="course-list-container">
+  <!-- Индикатор загрузки -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Загрузка курсов...</p>
+  </div>
+  
+  <!-- Сообщение об ошибке -->
+  <div class="error-message" *ngIf="error">
+    <span class="error-icon">⚠️</span>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="applyFilters()">Повторить</button>
+  </div>
+  
   <!-- Заголовок с шаблонной переменной -->
   <div class="page-header">
     <h1 #pageTitle class="main-title">
+      <span class="header-icon">📚</span>
       Каталог курсов
     </h1>
     <p class="subtitle">Найдите идеальный курс для изучения английского</p>
   </div>
 
-  <!-- Компонент статистики с ContentChild -->
+  <!-- Компонент статистики -->
   <app-course-statistics 
     [totalCourses]="totalCourses"
     [averageRating]="averageRating"
     [totalStudents]="totalStudents">
     
-    <!-- ContentChild шаблон для заголовка -->
     <ng-template #statHeader>
       <div class="custom-stat-header">
         <span class="stat-emoji">📊</span>
@@ -21,10 +34,9 @@
       </div>
     </ng-template>
     
-    <!-- ContentChild шаблон для футера -->
     <ng-template #statFooter>
       <div class="custom-stat-footer">
-        <span>{{ filteredCourses.length }} курсов по вашему запросу</span>
+        <span>🔥 {{ filteredCourses.length }} курсов по вашему запросу</span>
       </div>
     </ng-template>
   </app-course-statistics>
@@ -35,7 +47,7 @@
   </button>
 
   <!-- Компонент фильтров -->
-  <app-course-filter #filterComponent
+  <app-course-filter
     [selectedLevel]="selectedLevel"
     [selectedCategory]="selectedCategory"
     [showOnlyPopular]="showOnlyPopular"
@@ -54,40 +66,34 @@
     (resetFilters)="resetAllFilters()">
   </app-course-filter>
 
-  <!-- Переключатель вида с шаблонными переменными -->
+  <!-- Переключатель вида -->
   <div class="view-switcher">
-    <button #gridBtn
-            [class.active]="selectedViewMode === 'grid'"
-            (click)="changeViewMode('grid')">
+    <button [class.active]="selectedViewMode === 'grid'" (click)="changeViewMode('grid')">
       📱 Сетка
     </button>
-    <button #listBtn
-            [class.active]="selectedViewMode === 'list'"
-            (click)="changeViewMode('list')">
+    <button [class.active]="selectedViewMode === 'list'" (click)="changeViewMode('list')">
       📋 Список
     </button>
-    <button #compactBtn
-            [class.active]="selectedViewMode === 'compact'"
-            (click)="changeViewMode('compact')">
+    <button [class.active]="selectedViewMode === 'compact'" (click)="changeViewMode('compact')">
       📊 Компактный
     </button>
   </div>
 
   <!-- Информация о результатах -->
-  <div class="results-info" *ngIf="filteredCourses.length > 0">
+  <div class="results-info" *ngIf="filteredCourses.length > 0 && !isLoading">
     Найдено курсов: {{ filteredCourses.length }}
   </div>
   
-  <div class="no-results" *ngIf="filteredCourses.length === 0">
-    <p>По вашему запросу ничего не найдено</p>
+  <div class="no-results" *ngIf="filteredCourses.length === 0 && !isLoading">
+    <p>😕 По вашему запросу ничего не найдено</p>
     <button class="reset-btn" (click)="resetAllFilters()">Сбросить фильтры</button>
   </div>
 
-  <!-- Отображение курсов с использованием компонента CourseCard -->
+  <!-- Отображение курсов -->
   <div [ngSwitch]="selectedViewMode" class="courses-display">
     <!-- Grid режим -->
     <div *ngSwitchCase="'grid'" class="courses-grid">
-      <app-course-card #filterElement
+      <app-course-card
         *ngFor="let course of filteredCourses"
         [course]="course"
         [viewMode]="'grid'"
@@ -100,7 +106,7 @@
 
     <!-- List режим -->
     <div *ngSwitchCase="'list'" class="courses-list">
-      <app-course-card #filterElement
+      <app-course-card
         *ngFor="let course of filteredCourses"
         [course]="course"
         [viewMode]="'list'"
@@ -111,7 +117,7 @@
       </app-course-card>
     </div>
 
-    <!-- Compact режим (таблица) -->
+    <!-- Compact режим -->
     <div *ngSwitchCase="'compact'" class="courses-compact">
       <table class="compact-table">
         <thead>
@@ -127,7 +133,7 @@
         <tbody>
           <tr *ngFor="let course of filteredCourses">
             <td class="compact-title">
-              <app-course-card #filterElement
+              <app-course-card
                 [course]="course"
                 [viewMode]="'compact'"
                 [isHighlighted]="highlightedCourseId === course.id"
@@ -141,9 +147,6 @@
       </table>
     </div>
   </div>
-
-  <!-- Дополнительный контент через ng-content (для демонстрации) -->
-  <ng-content></ng-content>
 
   <!-- Кнопка "На главную" -->
   <div class="back-link-container">
