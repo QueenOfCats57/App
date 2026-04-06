@@ -1,0 +1,275 @@
+<div class="forms-demo-container">
+  <div class="page-header">
+    <h1 class="main-title">
+      <span class="header-icon">📝</span>
+      Формы
+    </h1>
+    <p class="subtitle">Регистрация и авторизация на платформе EnglishPro</p>
+  </div>
+
+  <div class="forms-grid">
+    <!-- ========== РЕАКТИВНАЯ ФОРМА (Авторизация) ========== -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">🔐</span>
+        <h2>Авторизация</h2>
+        <span class="form-badge reactive">Reactive Form</span>
+      </div>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="reactive-form">
+        <!-- Поле Email -->
+        <div class="form-group">
+          <label for="email">
+            Email <span class="required">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [class.is-invalid]="email?.invalid && email?.touched"
+            placeholder="example@mail.ru"
+          >
+          <div class="error-messages" *ngIf="email?.invalid && email?.touched">
+            <span class="error">{{ getLoginErrorMessage('email') }}</span>
+          </div>
+          <small class="form-hint">Пример: user@gmail.com, user@yandex.ru</small>
+        </div>
+
+        <!-- Поле Пароль -->
+        <div class="form-group">
+          <label for="password">
+            Пароль <span class="required">*</span>
+          </label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [class.is-invalid]="password?.invalid && password?.touched"
+            placeholder="Минимум 6 символов"
+          >
+          <div class="error-messages" *ngIf="password?.invalid && password?.touched">
+            <span class="error">{{ getLoginErrorMessage('password') }}</span>
+          </div>
+          <div class="password-strength" *ngIf="password?.value && password?.touched">
+            <div class="strength-bar" [style.width]="getPasswordStrength() + '%'"></div>
+            <span class="strength-text">{{ getPasswordStrengthText() }}</span>
+          </div>
+        </div>
+
+        <!-- Чекбокс Запомнить меня -->
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="rememberMe">
+            <span>Запомнить меня</span>
+          </label>
+        </div>
+
+        <!-- Кнопка отправки -->
+        <button type="submit" class="submit-btn" [disabled]="loginForm.invalid && loginSubmitted">
+          {{ loginSubmitted ? 'Вход...' : 'Войти' }}
+        </button>
+
+        <!-- Сообщение об успехе -->
+        <div class="success-message" *ngIf="loginSuccess">
+          <span class="success-icon">✅</span>
+          <span>Успешный вход! Добро пожаловать!</span>
+        </div>
+
+        <!-- Дополнительная информация -->
+        <div class="form-footer">
+          <a href="#" class="forgot-link">Забыли пароль?</a>
+          <span class="demo-info">Демо: admin@example.com / 123456</span>
+        </div>
+      </form>
+    </div>
+
+    <!-- ========== TEMPLATE-DRIVEN ФОРМА (Регистрация) ========== -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">📋</span>
+        <h2>Регистрация</h2>
+        <span class="form-badge template">Template Form</span>
+      </div>
+      
+      <form #registrationForm="ngForm" (ngSubmit)="onRegistrationSubmit(registrationForm)" class="template-form">
+        <!-- Поле Email -->
+        <div class="form-group">
+          <label for="reg-email">
+            Email <span class="required">*</span>
+          </label>
+          <input
+            type="email"
+            id="reg-email"
+            name="email"
+            [(ngModel)]="registrationModel.email"
+            #emailField="ngModel"
+            required
+            email
+            maxlength="100"
+            class="form-control"
+            [class.is-invalid]="emailField.invalid && emailField.touched"
+            placeholder="example@mail.ru"
+          >
+          <div class="error-messages" *ngIf="emailField.invalid && emailField.touched">
+            <span class="error" *ngIf="emailField.errors?.['required']">Email обязателен</span>
+            <span class="error" *ngIf="emailField.errors?.['email']">Введите корректный email</span>
+            <span class="error" *ngIf="emailField.errors?.['maxlength']">Email не должен превышать 100 символов</span>
+          </div>
+        </div>
+
+        <!-- Поле ФИО -->
+        <div class="form-group">
+          <label for="fullName">
+            ФИО <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            [(ngModel)]="registrationModel.fullName"
+            #fullNameField="ngModel"
+            required
+            minlength="3"
+            maxlength="100"
+            class="form-control"
+            [class.is-invalid]="fullNameField.invalid && fullNameField.touched"
+            placeholder="Иванов Иван Иванович"
+          >
+          <div class="error-messages" *ngIf="fullNameField.invalid && fullNameField.touched">
+            <span class="error" *ngIf="fullNameField.errors?.['required']">ФИО обязательно</span>
+            <span class="error" *ngIf="fullNameField.errors?.['minlength']">Минимум 3 символа</span>
+            <span class="error" *ngIf="fullNameField.errors?.['maxlength']">Максимум 100 символов</span>
+          </div>
+        </div>
+
+        <!-- Поле Телефон -->
+        <div class="form-group">
+          <label for="phone">
+            Телефон <span class="required">*</span>
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            [(ngModel)]="registrationModel.phone"
+            #phoneField="ngModel"
+            required
+            class="form-control"
+            [class.is-invalid]="(phoneField.invalid && phoneField.touched) || (registrationSubmitted && !validatePhone(registrationModel.phone))"
+            placeholder="+7 (999) 123-45-67"
+          >
+          <div class="error-messages" *ngIf="(phoneField.invalid && phoneField.touched) || (registrationSubmitted && !validatePhone(registrationModel.phone))">
+            <span class="error" *ngIf="phoneField.errors?.['required']">Телефон обязателен</span>
+            <span class="error" *ngIf="!validatePhone(registrationModel.phone)">Введите корректный номер телефона (Россия)</span>
+          </div>
+          <small class="form-hint">Формат: +7 999 123-45-67, 8-999-123-45-67, 89991234567</small>
+        </div>
+
+        <!-- Поле Дата рождения -->
+        <div class="form-group">
+          <label for="birthDate">
+            Дата рождения <span class="required">*</span>
+          </label>
+          <input
+            type="date"
+            id="birthDate"
+            name="birthDate"
+            [(ngModel)]="registrationModel.birthDate"
+            #birthDateField="ngModel"
+            required
+            class="form-control"
+            [class.is-invalid]="(birthDateField.invalid && birthDateField.touched) || (registrationSubmitted && !validateDate(registrationModel.birthDate))"
+          >
+          <div class="error-messages" *ngIf="(birthDateField.invalid && birthDateField.touched) || (registrationSubmitted && !validateDate(registrationModel.birthDate))">
+            <span class="error" *ngIf="birthDateField.errors?.['required']">Дата рождения обязательна</span>
+            <span class="error" *ngIf="!validateDate(registrationModel.birthDate)">Дата не может быть в будущем</span>
+          </div>
+        </div>
+
+        <!-- Поле Возраст (числовое) -->
+        <div class="form-group">
+          <label for="age">
+            Возраст <span class="required">*</span>
+          </label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            [(ngModel)]="registrationModel.age"
+            #ageField="ngModel"
+            required
+            min="14"
+            max="100"
+            class="form-control"
+            [class.is-invalid]="(ageField.invalid && ageField.touched) || (registrationSubmitted && !validateAge(registrationModel.age!))"
+            placeholder="от 14 до 100 лет"
+          >
+          <div class="error-messages" *ngIf="(ageField.invalid && ageField.touched) || (registrationSubmitted && !validateAge(registrationModel.age!))">
+            <span class="error" *ngIf="ageField.errors?.['required']">Возраст обязателен</span>
+            <span class="error" *ngIf="ageField.errors?.['min']">Минимальный возраст: 14 лет</span>
+            <span class="error" *ngIf="ageField.errors?.['max']">Максимальный возраст: 100 лет</span>
+            <span class="error" *ngIf="!validateAge(registrationModel.age!)">Возраст должен быть от 14 до 100 лет</span>
+          </div>
+        </div>
+
+        <!-- Поле Выбор курса -->
+        <div class="form-group">
+          <label for="courseId">
+            Выберите курс (опционально)
+          </label>
+          <select
+            id="courseId"
+            name="courseId"
+            [(ngModel)]="registrationModel.courseId"
+            class="form-control"
+          >
+            <option [ngValue]="null">-- Не выбран --</option>
+            <option *ngFor="let course of courses" [ngValue]="course.id">
+              {{ course.title }} ({{ course.level }} | {{ course.price }} ₽)
+            </option>
+          </select>
+        </div>
+
+        <!-- Чекбокс Согласие -->
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              name="agreeToTerms"
+              [(ngModel)]="registrationModel.agreeToTerms"
+              #agreeField="ngModel"
+              required
+            >
+            <span>Я согласен с условиями обработки персональных данных <span class="required">*</span></span>
+          </label>
+          <div class="error-messages" *ngIf="agreeField.invalid && agreeField.touched && registrationSubmitted">
+            <span class="error">Необходимо согласие на обработку данных</span>
+          </div>
+        </div>
+
+        <!-- Кнопка отправки -->
+        <button type="submit" class="submit-btn" [disabled]="!isRegistrationFormValid(registrationForm) && registrationSubmitted">
+          {{ registrationSubmitted ? 'Регистрация...' : 'Зарегистрироваться' }}
+        </button>
+
+        <!-- Сообщение об успехе -->
+        <div class="success-message" *ngIf="registrationSuccess">
+          <span class="success-icon">✅</span>
+          <span>Регистрация успешна! Проверьте вашу почту для подтверждения.</span>
+        </div>
+
+        <!-- Дополнительная информация -->
+        <div class="form-footer">
+          <span class="demo-info">* - обязательные поля</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Кнопка возврата на главную -->
+  <div class="back-link-container">
+    <a routerLink="/" class="back-link">← Вернуться на главную</a>
+  </div>
+</div>
