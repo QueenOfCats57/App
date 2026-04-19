@@ -1,0 +1,227 @@
+<div class="api-demo-container">
+  <div class="page-header">
+    <h1 class="main-title">
+      <span class="header-icon">🌐</span>
+      Работа с API
+    </h1>
+    <p class="subtitle">Управление данными через REST API (restful-api.dev)</p>
+  </div>
+
+  <!-- Сообщения об ошибках и успехе -->
+  <div class="alert error" *ngIf="errorMessage">
+    <span class="alert-icon">❌</span>
+    <span>{{ errorMessage }}</span>
+    <button class="alert-close" (click)="errorMessage = null">✕</button>
+  </div>
+
+  <div class="alert success" *ngIf="successMessage">
+    <span class="alert-icon">✅</span>
+    <span>{{ successMessage }}</span>
+    <button class="alert-close" (click)="successMessage = null">✕</button>
+  </div>
+
+  <!-- Панель действий -->
+  <div class="actions-panel">
+    <button class="btn btn-primary" (click)="refreshList()" [disabled]="isLoading">
+      🔄 {{ isLoading ? 'Загрузка...' : 'Обновить список' }}
+    </button>
+    <button class="btn btn-success" (click)="showAddForm = true; showEditForm = false">
+      ➕ Добавить объект
+    </button>
+  </div>
+
+  <!-- Форма добавления -->
+  <div class="form-modal" *ngIf="showAddForm">
+    <div class="form-card">
+      <div class="form-card-header">
+        <h3>📝 Создание нового объекта</h3>
+        <button class="close-btn" (click)="cancelAdd()">✕</button>
+      </div>
+      
+      <div class="form-body">
+        <div class="form-group">
+          <label>Название объекта *</label>
+          <input type="text" [(ngModel)]="newObject.name" placeholder="Например: MacBook Pro" class="form-control">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Год выпуска *</label>
+            <input type="number" [(ngModel)]="newObject.data.year" class="form-control" min="2000" max="2025">
+          </div>
+          <div class="form-group">
+            <label>Цена ($) *</label>
+            <input type="number" [(ngModel)]="newObject.data.price" class="form-control" min="0" step="100">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Процессор *</label>
+            <input type="text" [(ngModel)]="newObject.data.CPU_model" placeholder="Apple M2" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>SSD *</label>
+            <input type="text" [(ngModel)]="newObject.data.Hard_disk_size" placeholder="512GB" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Цвет</label>
+            <input type="text" [(ngModel)]="newObject.data.color" placeholder="Silver" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Рейтинг (0-5)</label>
+            <input type="number" [(ngModel)]="newObject.data.rating" class="form-control" min="0" max="5" step="0.5">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Описание</label>
+          <textarea [(ngModel)]="newObject.data.description" rows="3" placeholder="Описание объекта..." class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn btn-secondary" (click)="cancelAdd()">Отмена</button>
+        <button class="btn btn-primary" (click)="createObject()" [disabled]="isSubmitting || !isFormValid()">
+          {{ isSubmitting ? 'Создание...' : 'Создать' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Форма редактирования -->
+  <div class="form-modal" *ngIf="showEditForm && selectedObject">
+    <div class="form-card">
+      <div class="form-card-header">
+        <h3>✏️ Редактирование: {{ selectedObject.name }}</h3>
+        <button class="close-btn" (click)="cancelEdit()">✕</button>
+      </div>
+      
+      <div class="form-body">
+        <div class="form-group">
+          <label>Название объекта *</label>
+          <input type="text" [(ngModel)]="updateObject.name" class="form-control">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Год выпуска</label>
+            <input type="number" [(ngModel)]="updateObject.year" class="form-control" min="2000" max="2025">
+          </div>
+          <div class="form-group">
+            <label>Цена ($)</label>
+            <input type="number" [(ngModel)]="updateObject.price" class="form-control" min="0" step="100">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Процессор</label>
+            <input type="text" [(ngModel)]="updateObject.CPU_model" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>SSD</label>
+            <input type="text" [(ngModel)]="updateObject.Hard_disk_size" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Цвет</label>
+            <input type="text" [(ngModel)]="updateObject.color" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Рейтинг</label>
+            <input type="number" [(ngModel)]="updateObject.rating" class="form-control" min="0" max="5" step="0.5">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Описание</label>
+          <textarea [(ngModel)]="updateObject.description" rows="3" class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn btn-danger" (click)="deleteObject(selectedObject.id, selectedObject.name)" [disabled]="isSubmitting">
+          🗑️ Удалить
+        </button>
+        <div>
+          <button class="btn btn-secondary" (click)="cancelEdit()">Отмена</button>
+          <button class="btn btn-primary" (click)="updateObjectMethod()" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Сохранение...' : 'Сохранить' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Список объектов -->
+  <div class="objects-grid">
+    <div class="loading-state" *ngIf="isLoading && objects.length === 0">
+      <div class="spinner"></div>
+      <p>Загрузка данных...</p>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading && objects.length === 0">
+      <span class="empty-icon">📭</span>
+      <p>Нет данных</p>
+      <button class="btn btn-primary" (click)="showAddForm = true">Добавить первый объект</button>
+    </div>
+
+    <div class="object-card" *ngFor="let obj of objects">
+      <div class="card-badge" *ngIf="obj.data.rating">
+        <span class="rating" [style.background]="getRatingColor(obj.data.rating)">
+          ⭐ {{ obj.data.rating }}
+        </span>
+      </div>
+      
+      <div class="card-header">
+        <span class="card-icon">💻</span>
+        <h3>{{ obj.name }}</h3>
+      </div>
+      
+      <div class="card-details">
+        <div class="detail-row">
+          <span class="detail-label">📅 Год:</span>
+          <span class="detail-value">{{ obj.data.year }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">💰 Цена:</span>
+          <span class="detail-value">${{ obj.data.price | number }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">⚙️ Процессор:</span>
+          <span class="detail-value">{{ obj.data.CPU_model }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">💾 SSD:</span>
+          <span class="detail-value">{{ obj.data.Hard_disk_size }}</span>
+        </div>
+        <div class="detail-row" *ngIf="obj.data.color">
+          <span class="detail-label">🎨 Цвет:</span>
+          <span class="detail-value">{{ obj.data.color }}</span>
+        </div>
+        <div class="detail-row description" *ngIf="obj.data.description">
+          <span class="detail-label">📝 Описание:</span>
+          <span class="detail-value">{{ obj.data.description }}</span>
+        </div>
+      </div>
+      
+      <div class="card-footer">
+        <span class="object-id">ID: {{ obj.id | slice:0:8 }}...</span>
+        <button class="edit-btn" (click)="selectObjectForEdit(obj)">
+          ✏️ Редактировать
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Кнопка возврата -->
+  <div class="back-link-container">
+    <a routerLink="/" class="back-link">← Вернуться на главную</a>
+  </div>
+</div>

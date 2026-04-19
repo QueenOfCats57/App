@@ -5,6 +5,7 @@ import { About } from './pages/about/about';
 import { Contacts } from './pages/contacts/contacts';
 import { NotFound } from './pages/not-found/not-found';
 import { FormsDemoComponent } from './pages/forms-demo/forms-demo';
+import { ApiCrudComponent } from './pages/api-crud/api-crud';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,6 +14,7 @@ export const routes: Routes = [
     { path: 'about', component: About },
     { path: 'contacts', component: Contacts },
     { path: 'forms', component: FormsDemoComponent }, 
+    { path: 'api-crud', component: ApiCrudComponent },
     { path: '404', component: NotFound },
     { path: '**', redirectTo: '/404' }
 ];
