@@ -1,0 +1,142 @@
+<div class="pipes-demo-container">
+  <h1 class="title">🔧 Pipes в Angular</h1>
+  <p class="subtitle">Демонстрация встроенных и собственных пайпов</p>
+
+  <!-- ===== СЕКЦИЯ 1: ВСТРОЕННЫЕ PIPES ===== -->
+  <div class="section">
+    <h2>📌 Встроенные Pipes</h2>
+    
+    <div class="cards-grid">
+      
+      <!-- CurrencyPipe -->
+      <div class="card">
+        <h3>CurrencyPipe</h3>
+        <p><strong>Было:</strong> {{ price }}</p>
+        <p><strong>Стало:</strong> {{ price | currency:'RUB' }}</p>
+        <code>{{ price }} | currency:'RUB'</code>
+      </div>
+
+      <!-- PercentPipe -->
+      <div class="card">
+        <h3>PercentPipe</h3>
+        <p><strong>Было:</strong> {{ discount }}</p>
+        <p><strong>Стало:</strong> {{ discount | percent }}</p>
+        <code>{{ discount }} | percent</code>
+      </div>
+
+      <!-- UpperCasePipe -->
+      <div class="card">
+        <h3>UpperCasePipe</h3>
+        <p><strong>Было:</strong> {{ productName }}</p>
+        <p><strong>Стало:</strong> {{ productName | uppercase }}</p>
+        <code>{{ productName }} | uppercase</code>
+      </div>
+
+      <!-- LowerCasePipe -->
+      <div class="card">
+        <h3>LowerCasePipe</h3>
+        <p><strong>Было:</strong> {{ productName }}</p>
+        <p><strong>Стало:</strong> {{ productName | lowercase }}</p>
+        <code>{{ productName }} | lowercase</code>
+      </div>
+
+      <!-- DatePipe -->
+      <div class="card">
+        <h3>DatePipe</h3>
+        <p><strong>Было:</strong> {{ createdAt }}</p>
+        <p><strong>Стало:</strong> {{ createdAt | date:'dd.MM.yyyy' }}</p>
+        <code>{{ createdAt }} | date:'dd.MM.yyyy'</code>
+      </div>
+
+      <!-- DecimalPipe -->
+      <div class="card">
+        <h3>DecimalPipe</h3>
+        <p><strong>Было:</strong> {{ bigNumber }}</p>
+        <p><strong>Стало:</strong> {{ bigNumber | number:'1.2-2' }}</p>
+        <code>{{ bigNumber }} | number:'1.2-2'</code>
+      </div>
+
+      <!-- SlicePipe -->
+      <div class="card">
+        <h3>SlicePipe</h3>
+        <p><strong>Было:</strong> {{ description }}</p>
+        <p><strong>Стало:</strong> {{ description | slice:0:30 }}...</p>
+        <code>{{ description }} | slice:0:30</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== СЕКЦИЯ 2: ЦЕПОЧКИ PIPES (только 2 примера) ===== -->
+  <div class="section">
+    <h2>🔗 Цепочки Pipes</h2>
+    
+    <div class="chain-cards">
+      <!-- Цепочка 1 -->
+      <div class="chain-card">
+        <h3>Цепочка 1</h3>
+        <div class="chain-content">
+          <p><strong>Было:</strong> "{{ productName }}"</p>
+          <p><strong>Стало:</strong> "{{ productName | uppercase | slice:0:10 }}"</p>
+        </div>
+        <code class="chain-code">"{{ productName }}" | uppercase | slice:0:10</code>
+        <div class="chain-explanation">→ Сначала в верхний регистр, потом обрезаем до 10 символов</div>
+      </div>
+
+      <!-- Цепочка 2 -->
+      <div class="chain-card">
+        <h3>Цепочка 2</h3>
+        <div class="chain-content">
+          <p><strong>Было:</strong> {{ createdAt }}</p>
+          <p><strong>Стало:</strong> {{ createdAt | date:'fullDate' | uppercase }}</p>
+        </div>
+        <code class="chain-code">{{ createdAt }} | date:'fullDate' | uppercase</code>
+        <div class="chain-explanation">→ Сначала форматируем дату, потом в верхний регистр</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== СЕКЦИЯ 3: СОБСТВЕННЫЕ PIPES (без таблицы) ===== -->
+  <div class="section">
+    <h2>⚙️ Собственные Pipes</h2>
+    
+    <div class="custom-cards">
+      <!-- TruncatePipe -->
+      <div class="custom-card">
+        <h3>1. TruncatePipe</h3>
+        <div class="custom-content">
+          <p><strong>Было:</strong> "{{ description }}"</p>
+          <p><strong>Стало:</strong> "{{ description | truncate:25 }}"</p>
+        </div>
+        <code class="custom-code">text | truncate:25</code>
+        <div class="custom-explanation">→ Обрезает текст до 25 символов и добавляет "..."</div>
+      </div>
+
+      <!-- PhoneFormatPipe -->
+      <div class="custom-card">
+        <h3>2. PhoneFormatPipe</h3>
+        <div class="custom-content">
+          <p><strong>Было:</strong> 79161234567</p>
+          <p><strong>Стало:</strong> {{ '79161234567' | phoneFormat }}</p>
+        </div>
+        <code class="custom-code">'79161234567' | phoneFormat</code>
+        <div class="custom-explanation">→ Форматирует номер: +7 916 123-45-67</div>
+      </div>
+
+      <!-- RatingStarsPipe -->
+      <div class="custom-card">
+        <h3>3. RatingStarsPipe</h3>
+        <div class="custom-content">
+          <p><strong>Было:</strong> {{ rating }}</p>
+          <p><strong>Стало:</strong> {{ rating | ratingStars:5 }}</p>
+        </div>
+        <code class="custom-code">{{ rating }} | ratingStars:5</code>
+        <div class="custom-explanation">→ Превращает число в звездочки: {{ rating | ratingStars:5 }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Кнопка возврата -->
+  <div class="back-link-container">
+    <a routerLink="/" class="back-link">← Вернуться на главную</a>
+  </div>
+</div>

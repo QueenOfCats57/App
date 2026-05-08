@@ -344,6 +344,7 @@ export class CourseService {
         category: 'general',
         duration: 8,
         price: 15000,
+        isFree: false,
         students: 1234,
         rating: 4.8,
         isPopular: true,
@@ -367,6 +368,7 @@ export class CourseService {
         category: 'conversation',
         duration: 12,
         price: 18000,
+        isFree: false,
         students: 856,
         rating: 4.9,
         isPopular: true,
@@ -389,6 +391,7 @@ export class CourseService {
         category: 'exam',
         duration: 16,
         price: 25000,
+        isFree: false,
         students: 567,
         rating: 4.9,
         isPopular: true,
@@ -412,6 +415,7 @@ export class CourseService {
         category: 'business',
         duration: 10,
         price: 20000,
+        isFree: false,
         students: 432,
         rating: 4.7,
         isPopular: false,
@@ -435,6 +439,7 @@ export class CourseService {
         category: 'general',
         duration: 16,
         price: 14000,
+        isFree: false,
         students: 789,
         rating: 4.9,
         isPopular: true,
@@ -457,6 +462,7 @@ export class CourseService {
         category: 'business',
         duration: 8,
         price: 19000,
+        isFree: false,
         students: 345,
         rating: 4.8,
         isPopular: false,
@@ -480,6 +486,7 @@ export class CourseService {
         category: 'conversation',
         duration: 6,
         price: 12000,
+        isFree: false,
         students: 654,
         rating: 4.7,
         isPopular: false,
@@ -503,6 +510,7 @@ export class CourseService {
         category: 'exam',
         duration: 12,
         price: 22000,
+        isFree: false,
         students: 234,
         rating: 4.8,
         isPopular: false,
@@ -516,7 +524,53 @@ export class CourseService {
           experience: 20
         },
         modules: ['Academic writing', 'Research papers', 'Presentations', 'Academic discussions', 'Citations']
-      }
+      },
+      {
+      id: 9,
+      title: 'Пробный урок английского',
+      description: 'Бесплатный пробный урок. Познакомьтесь с методикой и преподавателем.',
+      level: 'beginner',
+      category: 'general',
+      duration: 1,
+      price: 0,        // Цена 0 = бесплатный
+      isFree: true,    // Флаг бесплатного курса
+      students: 2345,
+      rating: 4.9,
+      isPopular: true,
+      isNew: true,
+      hasDiscount: false,
+      startDate: new Date('2024-05-01'),
+      schedule: ['По записи'],
+      teacher: {
+        name: 'Анна Смирнова',
+        avatar: '👩‍🏫',
+        experience: 8
+      },
+      modules: ['Знакомство', 'Определение уровня', 'Мини-урок']
+    },
+    {
+      id: 10,
+      title: 'Бесплатный вебинар: Как учить английский',
+      description: 'Бесплатный вебинар о эффективных методах изучения английского языка.',
+      level: 'all-levels',
+      category: 'general',
+      duration: 1,
+      price: 0,
+      isFree: true,
+      students: 3456,
+      rating: 4.8,
+      isPopular: false,
+      isNew: true,
+      hasDiscount: false,
+      startDate: new Date('2024-05-10'),
+      schedule: ['Сб, 15:00'],
+      teacher: {
+        name: 'Дмитрий Волков',
+        avatar: '👨‍💼',
+        experience: 15
+      },
+      modules: ['Методики', 'Практические советы', 'Q&A']
+    }
     ];
   }
 }

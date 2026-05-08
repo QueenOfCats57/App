@@ -1,0 +1,59 @@
+<div class="directives-demo-container">
+  <h1 class="title">🎯 Собственные директивы</h1>
+  <p class="subtitle">Атрибутные и структурные директивы</p>
+
+  <!-- ===== АТРИБУТНАЯ ДИРЕКТИВА ===== -->
+  <div class="section">
+    <h2>✨ Атрибутная директива appHighlight</h2>
+    <div class="demo-box" appHighlight="#c8e6c9">
+      Наведи на меня! (подсветится зеленым)
+    </div>
+    <p class="explanation">→ При наведении мыши элемент подсвечивается указанным цветом</p>
+  </div>
+
+  <!-- ===== СТРУКТУРНЫЕ ДИРЕКТИВЫ ===== -->
+  <div class="section">
+    <h2>📂 Структурные директивы</h2>
+    
+    <!-- Кнопки переключения -->
+    <div class="buttons">
+      <button (click)="showAll()" class="btn">📚 Все курсы</button>
+      <button (click)="toggleFree()" class="btn btn-free">🎁 Только бесплатные</button>
+      <button (click)="togglePaid()" class="btn btn-paid">💰 Только платные</button>
+    </div>
+
+    <!-- Все курсы -->
+    <div *ngIf="!showFree && !showPaid" class="courses-list">
+      <h3>Все курсы ({{ allCourses.length }})</h3>
+      <div *ngFor="let course of allCourses" class="course-item" appHighlight>
+        <span class="course-name">{{ course.title }}</span>
+        <span class="course-price" [class.free]="course.price === 0">
+          {{ course.price === 0 ? '🎁 Бесплатно' : (course.price | currency:'RUB':'symbol-narrow':'1.0-0') }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Только бесплатные курсы (наша директива) -->
+    <div *appFreeOnly="allCourses; let freeCourses" class="courses-list">
+      <h3>🎁 Бесплатные курсы ({{ freeCourses.length }})</h3>
+      <div *ngFor="let course of freeCourses" class="course-item" appHighlight>
+        <span class="course-name">{{ course.title }}</span>
+        <span class="course-price free">🎁 Бесплатно</span>
+      </div>
+    </div>
+
+    <!-- Только платные курсы (наша директива) -->
+    <div *appPaidOnly="allCourses; let paidCourses" class="courses-list">
+      <h3>💰 Платные курсы ({{ paidCourses.length }})</h3>
+      <div *ngFor="let course of paidCourses" class="course-item" appHighlight>
+        <span class="course-name">{{ course.title }}</span>
+        <span class="course-price">{{ course.price | currency:'RUB':'symbol-narrow':'1.0-0' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Кнопка возврата -->
+  <div class="back-link-container">
+    <a routerLink="/" class="back-link">← Вернуться на главную</a>
+  </div>
+</div>

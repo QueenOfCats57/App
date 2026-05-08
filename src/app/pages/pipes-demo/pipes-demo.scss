@@ -1,0 +1,180 @@
+.pipes-demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #5e6b7d;
+  margin-bottom: 40px;
+}
+
+.section {
+  margin-bottom: 50px;
+  
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #f8bbd0;
+  }
+}
+
+/* Сетка для встроенных pipes */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  
+  h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 2px solid #e8f5e9;
+    padding-bottom: 10px;
+  }
+  
+  p {
+    margin: 10px 0;
+  }
+  
+  code {
+    display: block;
+    background: #e8f5e9;
+    padding: 8px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    margin-top: 10px;
+    overflow-x: auto;
+  }
+}
+
+/* Стили для цепочек pipes */
+.chain-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chain-card {
+  background: linear-gradient(135deg, #e8f5e9, #fce4ec);
+  border-radius: 15px;
+  padding: 20px;
+  
+  h3 {
+    margin-top: 0;
+    color: #2c3e50;
+  }
+  
+  .chain-content {
+    margin: 15px 0;
+    
+    p {
+      margin: 8px 0;
+    }
+  }
+  
+  .chain-code {
+    display: block;
+    background: rgba(255,255,255,0.7);
+    padding: 10px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 13px;
+    color: #66bb6a;
+    margin: 10px 0;
+  }
+  
+  .chain-explanation {
+    background: rgba(255,255,255,0.5);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #f06292;
+  }
+}
+
+/* Стили для собственных pipes */
+.custom-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.custom-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-left: 5px solid #f48fb1;
+  
+  h3 {
+    margin-top: 0;
+    color: #2c3e50;
+  }
+  
+  .custom-content {
+    margin: 15px 0;
+    
+    p {
+      margin: 8px 0;
+    }
+  }
+  
+  .custom-code {
+    display: block;
+    background: #e8f5e9;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 13px;
+    color: #66bb6a;
+    margin: 10px 0;
+  }
+  
+  .custom-explanation {
+    background: #fce4ec;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #2c3e50;
+    margin-top: 10px;
+  }
+}
+
+/* Кнопка возврата */
+.back-link-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.back-link {
+  display: inline-block;
+  padding: 12px 30px;
+  background: white;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 30px;
+  border: 2px solid #f8bbd0;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #f8bbd0;
+    transform: translateY(-2px);
+  }
+}

@@ -1,0 +1,145 @@
+.directives-demo-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.subtitle {
+  text-align: center;
+  color: #5e6b7d;
+  margin-bottom: 40px;
+}
+
+.section {
+  margin-bottom: 50px;
+  
+  h2 {
+    color: #2c3e50;
+    border-bottom: 3px solid #f8bbd0;
+    padding-bottom: 10px;
+  }
+}
+
+.demo-box {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background: #e8f5e9;
+    color: #2c3e50;
+    
+    &:hover {
+      background: #c8e6c9;
+    }
+    
+    &.btn-free {
+      background: #fce4ec;
+      &:hover { background: #f8bbd0; }
+    }
+    
+    &.btn-paid {
+      background: #e8f5e9;
+      &:hover { background: #c8e6c9; }
+    }
+  }
+}
+
+.courses-list {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  
+  h3 {
+    margin-top: 0;
+    color: #2c3e50;
+  }
+}
+
+.course-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #fce4ec;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .course-name {
+    font-weight: 500;
+  }
+  
+  .course-price {
+    color: #66bb6a;
+    
+    &.free {
+      color: #f06292;
+    }
+  }
+}
+
+.code-example, .code-block {
+  background: #2c3e50;
+  color: #e8f5e9;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 13px;
+  margin: 15px 0;
+  overflow-x: auto;
+  
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+}
+
+.explanation {
+  background: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.back-link-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.back-link {
+  display: inline-block;
+  padding: 12px 30px;
+  background: white;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 30px;
+  border: 2px solid #f8bbd0;
+  
+  &:hover {
+    background: #f8bbd0;
+  }
+}

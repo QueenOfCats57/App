@@ -12,6 +12,7 @@ export interface Course {
   category: 'general' | 'business' | 'exam' | 'conversation';
   duration: number; // в неделях
   price: number;
+  isFree: boolean;
   students: number;
   rating: number;
   isPopular: boolean;
