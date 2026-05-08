@@ -23,7 +23,7 @@ export class ApiService {
         timeout(10000), // Таймаут 10 секунд
         retry(1), // Повтор при ошибке
         map(objects => {
-          console.log(`✅ Получено ${objects.length} объектов`);
+          console.log(`Получено ${objects.length} объектов`);
           return objects;
         }),
         catchError(this.handleError)
@@ -56,7 +56,7 @@ export class ApiService {
       .pipe(
         timeout(10000),
         map(response => {
-          console.log('✅ Объект создан:', response);
+          console.log('Объект создан:', response);
           return response;
         }),
         catchError(this.handleError)
@@ -76,7 +76,7 @@ export class ApiService {
       .pipe(
         timeout(10000),
         map(response => {
-          console.log('✅ Объект обновлен:', response);
+          console.log('Объект обновлен:', response);
           return response;
         }),
         catchError(this.handleError)
@@ -93,7 +93,7 @@ export class ApiService {
       .pipe(
         timeout(10000),
         map(response => {
-          console.log('✅ Объект удален:', response);
+          console.log('Объект удален:', response);
           return response;
         }),
         catchError(this.handleError)
@@ -129,7 +129,7 @@ export class ApiService {
       }
     }
     
-    console.error('❌ Ошибка API:', errorMessage);
+    console.error('Ошибка API:', errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

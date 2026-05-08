@@ -46,7 +46,7 @@ export class FormsDemoComponent implements OnInit, OnDestroy {
   courses: Course[] = [];
   private subscriptions: Subscription = new Subscription();
   
-  // Валидация телефона: регулярное выражение для российских номеров
+  // Валидация телефона: для российских номеров
   phonePattern = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
   
   constructor(
@@ -79,7 +79,7 @@ export class FormsDemoComponent implements OnInit, OnDestroy {
     
     // Подписка на изменения формы для демонстрации
     this.loginForm.valueChanges.subscribe(value => {
-      console.log('📝 Реактивная форма изменена:', value);
+      console.log('Реактивная форма изменена:', value);
     });
   }
   
@@ -120,7 +120,7 @@ export class FormsDemoComponent implements OnInit, OnDestroy {
     this.loginSuccess = false;
     
     if (this.loginForm.valid) {
-      console.log('✅ Реактивная форма отправлена:', this.loginForm.value);
+      console.log('Реактивная форма отправлена:', this.loginForm.value);
       this.loginSuccess = true;
       
       // Имитация отправки на сервер
@@ -130,7 +130,7 @@ export class FormsDemoComponent implements OnInit, OnDestroy {
         this.loginForm.reset({ email: '', password: '', rememberMe: false });
       }, 3000);
     } else {
-      console.log('❌ Ошибка валидации реактивной формы');
+      console.log('Ошибка валидации реактивной формы');
       this.markFormGroupTouched(this.loginForm);
     }
   }
@@ -186,7 +186,7 @@ export class FormsDemoComponent implements OnInit, OnDestroy {
         this.validateAge(this.registrationModel.age!) && 
         this.validateDate(this.registrationModel.birthDate)) {
       
-      console.log('✅ Template-driven форма отправлена:', this.registrationModel);
+      console.log('Template-driven форма отправлена:', this.registrationModel);
       this.registrationSuccess = true;
       
       // Имитация отправки на сервер
@@ -196,7 +196,7 @@ export class FormsDemoComponent implements OnInit, OnDestroy {
         this.resetRegistrationForm();
       }, 3000);
     } else {
-      console.log('❌ Ошибка валидации template-driven формы');
+      console.log('Ошибка валидации template-driven формы');
     }
   }
   

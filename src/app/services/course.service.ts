@@ -62,9 +62,9 @@ export class CourseService {
       map(courses => courses.find(course => course.id === id)),
       tap(course => {
         if (course) {
-          console.log(`📖 Сервис: Найден курс "${course.title}"`);
+          console.log(`Сервис: Найден курс "${course.title}"`);
         } else {
-          console.warn(`⚠️ Сервис: Курс с ID ${id} не найден`);
+          console.warn(`Сервис: Курс с ID ${id} не найден`);
         }
       })
     );
@@ -81,7 +81,7 @@ export class CourseService {
     
     // Проверяем кэш
     if (this.filteredCoursesCache.has(cacheKey)) {
-      console.log('💾 Сервис: Используем кэшированные данные');
+      console.log('Сервис: Используем кэшированные данные');
       this.loadingSubject.next(false);
       return of(this.filteredCoursesCache.get(cacheKey)!);
     }
@@ -150,7 +150,7 @@ export class CourseService {
         // Сохраняем в кэш
         this.filteredCoursesCache.set(cacheKey, filtered);
         
-        console.log(`🔍 Сервис: Отфильтровано ${filtered.length} курсов из ${courses.length}`);
+        console.log(`Сервис: Отфильтровано ${filtered.length} курсов из ${courses.length}`);
         return filtered;
       }),
       tap(() => this.loadingSubject.next(false)),
@@ -182,7 +182,7 @@ export class CourseService {
         this.coursesSubject.next(updatedCourses);
         this.clearCache();
         
-        console.log(`✨ Сервис: Добавлен новый курс "${newCourse.title}" с ID ${newId}`);
+        console.log(`Сервис: Добавлен новый курс "${newCourse.title}" с ID ${newId}`);
         return newCourse;
       }),
       tap(() => this.loadingSubject.next(false)),
@@ -215,7 +215,7 @@ export class CourseService {
         this.coursesSubject.next(updatedCourses);
         this.clearCache();
         
-        console.log(`✏️ Сервис: Обновлен курс "${updatedCourse.title}"`);
+        console.log(`Сервис: Обновлен курс "${updatedCourse.title}"`);
         return updatedCourse;
       }),
       tap(() => this.loadingSubject.next(false)),
@@ -245,7 +245,7 @@ export class CourseService {
         this.coursesSubject.next(updatedCourses);
         this.clearCache();
         
-        console.log(`🗑️ Сервис: Удален курс "${courseToDelete.title}"`);
+        console.log(`Сервис: Удален курс "${courseToDelete.title}"`);
         return true;
       }),
       tap(() => this.loadingSubject.next(false)),
@@ -321,7 +321,7 @@ export class CourseService {
    */
   private clearCache(): void {
     this.filteredCoursesCache.clear();
-    console.log('🗑️ Сервис: Кэш очищен');
+    console.log('Сервис: Кэш очищен');
   }
   
   /**
